@@ -24,7 +24,7 @@ public class Test {
 			x = c.eval("sd(myvalues)");
 			System.out.println(x.asDouble());
 
-			c.eval("source(\"/Users/yaozong/Documents/workspace/GIS2/WebContent/WEB-INF/RScripts/Palindrome.R\")");
+			c.eval("source(\"source(\"/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/RScripts/Palindrome.R\")");
 
 			// call the function. Return true
 			REXP is_aba_palindrome = c.eval("palindrome('"+"aba"+"')");
@@ -36,14 +36,14 @@ public class Test {
 			System.out.println(is_abc_palindrome.asInteger()); // prints 0 =>
 																// false
 
-			File userFile = new File("/Users/yaozong/Documents/workspace/GIS2/WebContent/WEB-INF/canvas.csv");
+			File userFile = new File("/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/canvas.csv");
 			FileWriter writer = new FileWriter(userFile, false);
 			writer.write(csv);
             writer.close();
 			// call the function. return false
 			// c.assign("csvInput", csv);
 			
-			REXP kenneth = c.eval("kenneth()");
+			REXP kenneth = c.eval("QuadratTest('"+csv+"')");
 			double[] aa = kenneth.asDoubles();
 			System.out.println(kenneth.isNumeric());
 			for(double a : aa){

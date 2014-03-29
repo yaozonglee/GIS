@@ -67,12 +67,13 @@ function processUpload() {
     var massagedData = util.massageData(csvObject);
     // take that data and cast the lat and lon columns to numbers using parseFloat:
     massagedData = util.latLonColumnsToNumbers(massagedData, latName, lonName);
-
+    
     GeoJSON.parse(massagedData, {
         Point: [latName, lonName]
     }, function(geojson) {
     	//plot uploaded file on map
-        L.geoJson(geojson).addTo(map);  
+        L.geoJson(geojson).addTo(map);
+        aaa = massagedData;
     });
 }
 

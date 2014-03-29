@@ -1,11 +1,11 @@
 # http://rosettacode.org/wiki/Palindrome_detection#R
 ###############################################################################
 palindrome <- function(p) {
-    for(i in 1:floor(nchar(p)/2) ) {
-        r <- nchar(p) - i + 1
-        if ( substr(p, i, i) != substr(p, r, r) ) return(FALSE) 
-    }
-    TRUE
+  for(i in 1:floor(nchar(p)/2) ) {
+    r <- nchar(p) - i + 1
+    if ( substr(p, i, i) != substr(p, r, r) ) return(FALSE) 
+  }
+  TRUE
 }
 
 MoranMagnitude <- function(index){
@@ -14,7 +14,7 @@ MoranMagnitude <- function(index){
   library(spdep)
   
   # Get spatial points
-  ozone <- read.csv("/Users/yaozong/Documents/workspace/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
+  ozone <- read.csv("/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
   
   # Get coordinates of ozone - to be used for neighbourlist
   coord <- cbind(ozone$longitude,ozone$latitude)
@@ -27,7 +27,7 @@ MoranMagnitude <- function(index){
   
   # convert index to a numeric
   index = as(index,"integer")
-
+  
   # calculate moran
   temp <- moran.test(ozone[,index], ozone.rsw)
   cb <- cbind(temp$estimate[1],temp$p.value)
@@ -39,7 +39,7 @@ Quadrat <- function(){
   library(spatstat)
   
   
-  points <- read.csv("/Users/yaozong/Documents/workspace/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
+  points <- read.csv("/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
   # retrieve points
   coord <- cbind(points$longitude,points$latitude)
   
@@ -155,5 +155,24 @@ test <- function(){
   summary(lm)
   summary(lm)
   b<- summary(lm)
-  return b
+  return (b)
+}
+
+test2 <- function(arg){
+  print(arg)
+  print(names(arg))
+  return("heh")
+}
+
+QuadratTest<-function(jsonString){
+  library(rgdal)
+  library(maptools)
+  library(spatstat)
+  points <- readOGR(dsn=jsonString,layer='OGRGeoJSON')
+  
+  ppp=as(as(points, "SpatialPoints"),"ppp")
+  
+  # quadrant test
+  temp <- quadrat.test(ppp);
+  return (temp)
 }
