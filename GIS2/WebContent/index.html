@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>GIS - Group Project</title>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="js/leaflet-0.7.2/leaflet.css" />
+
+
+    <link rel="stylesheet" href="js/csv-to-geojson-master/css/style.css">
+    
+    <!--main stylesheet-->
+    <link rel="stylesheet" href="css/style.css" />
+    <!--foundation stylesheet-->
+    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/foundation.css">
+    <link rel="stylesheet" href="css/normalize.css">
+
+
+    
+	<script src="js/leaflet-0.7.2/leaflet.js"></script>
+    <script src="js/jQuery/jquery-1.11.0.js"></script>
+    
+    <script src="js/csv-to-geojson-master/js/libs/makeClass.js"></script>
+    <script src="js/csv-to-geojson-master/js/libs/geojson.min.js"></script>
+    <script src="js/csv-to-geojson-master/js/libs/CsvToJson.js"></script>
+    <script src="js/csv-to-geojson-master/js/app.js"></script>
+    
+   
+    
+    
+    
+    <!-- Custom Modernizr for Foundation -->
+    <script src="js/modernizr.js"></script>
+    
+    <!--libraries-->
+    <script src="js/foundation.min.js"></script>
+   
+    
+     
+    
+    
+</head>
+
+<body style="background-color: #FAFAFA;">
+
+    
+    <div class="small-12 medium-12 large-12 columns"> 
+            
+            <div class="row">
+                <div align='center' style="padding: 50px;" class="small-12 medium-12 large-12 columns">
+                    <h1>My GIS App</h1>
+                </div>
+            </div>
+
+            <!-- <div class="row"> -->
+                <div id='coolborder' class="small-12 medium-12 large-3 columns">
+                     
+                    <div class="row">
+                        <input type="file" id="csvFileInput" onchange="handleFiles(this.files)" accept=".csv"/>
+                    </div> 
+                     
+                    <div class="row" class="gistLink" id="gistLinkContainer" style="display:none">
+                    	<select id="headerOptions"></select>
+                    	<input type="button" value="select" onclick="selectMagnitude();" />
+                    </div>
+
+                     <button id='clearPoints' class="button tiny">Clear All Points</button>
+
+                </div>  
+
+                <div class="small-12 medium-12 large-1 columns">
+                    
+                </div> 
+
+                <div id='coolborder' class="small-12 medium-12 large-8 columns">
+                   
+                        <div id='map'></div>
+                   
+                </div>   
+
+               
+
+    </div>
+
+   
+        <div style="padding: 50px;" class="small-12 medium-12 large-12 columns"> 
+            <div class="row" align="right"> Powered by Allah
+                <div  id="statsResults" class="small-12 medium-12 large-12 columns">
+                <div class="small-12 medium-12 large-12 columns" id="statsScore"></div>
+                </div>
+            </div>
+        </div>
+    
+<script src="js/src/implementation.js"></script>
+<script src="main.js"></script>
+
+</body>
+
+</html>
