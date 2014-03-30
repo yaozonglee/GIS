@@ -4,7 +4,7 @@ var aaa;
 
 function handleFiles(files) {
 	// Check for the various File API support.
-	if (window.FileReader) {
+	if (window.FileReader && files[0] != null) {
 		// FileReader are supported.
 		getAsText(files[0]);
 	} else {
@@ -39,7 +39,7 @@ function processData(csv) {
 	}
 	mycsv = lines;
 	originalCsv = csv;
-
+	$('#headerOptions').empty();
 	$('<option value='+"0"+'>'+''+'</option>').appendTo('#headerOptions');
 	$.each(mycsv[0], function( index, value ) {
 //		  alert( index + ": " + value );
@@ -47,7 +47,6 @@ function processData(csv) {
 		var option = $('<option value='+(index+1)+'>'+value+'</option>');
 		option.appendTo('#headerOptions');
 	});
-	$("#gistLinkContainer").show();
 }
 
 function selectMagnitude(){
@@ -58,8 +57,6 @@ function selectMagnitude(){
 //	    selectedVal = selected.val();
 //	}
 	selectedVal = $("#headerOptions option:selected").val();
-	$("#gistLinkContainer").hide();
-	$('#headerOptions').empty();
 	sendData(selectedVal);
 }
 
