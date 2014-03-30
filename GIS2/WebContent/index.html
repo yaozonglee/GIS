@@ -58,8 +58,9 @@
 		</div>
 
 		<!-- <div class="row"> -->
-		<div id='coolborder' class="small-12 medium-12 large-3 columns">
+		<div class="small-12 medium-12 large-3 columns">
 
+		<div id='coolborder'  class='row'>
 			<div class="row">
 				<input type="file" id="csvFileInput"
 					onchange="handleFiles(this.files)" accept=".csv" />
@@ -77,17 +78,27 @@
 
 			<input type="button" value="Upload" onclick="selectMagnitude();" />
 			<button id='clearPoints' class="button tiny">Clear All Points</button>
+		</div>
+			
+			<br/><br/>
+			<div id='coolborder'  class="row">
+			test
+			</div>
 
 		</div>
 
-		<div class="small-12 medium-12 large-1 columns"></div>
+		<div id ='left-bottom' class="small-12 medium-12 large-1 columns">
+			<input type="button" value="Upload" onclick="selectMagnitude();" />
+		</div>
 
 		<div id='coolborder' class="small-12 medium-12 large-8 columns">
 
 			<div id='map'></div>
 
 		</div>
-
+		
+		
+		
 
 
 	</div>
