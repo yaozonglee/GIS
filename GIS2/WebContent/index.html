@@ -36,8 +36,8 @@
 
 </head>
 
-<body style="background-color: #FAFAFA;">
-
+<!-- <body style="background-color: #FAFAFA;"> -->
+<body style="background-image: url('pic/bgnoise_lg.jpg');">
 
 	<div class="small-12 medium-12 large-12 columns">
 
@@ -48,37 +48,40 @@
 		<!-- <div class="row"> -->
 		<div class="small-12 medium-12 large-3 columns">
 
-			<div id='niceRow' style="padding: 40px;" class='row'>
+			<div id='niceRow'
+				style="padding: 40px; position: relative; left: -13px;" class='row'>
 				<div class="row">
-					Choose file to Upload: <br />
-					<br /> <input type="file" id="csvFileInput"
-						onchange="handleFiles(this.files)" accept=".csv" /> <input
-						type="radio" name="dataCategory" value="amenity" checked="checked" />Amenity
-					<input type="radio" name="dataCategory" value="target" />Target
+					Choose file to Upload: <br /> <br /> <input type="file"
+						id="csvFileInput" onchange="handleFiles(this.files)" accept=".csv" />
+					<input type="radio" name="dataCategory" value="amenity"
+						checked="checked" />Amenity <input type="radio"
+						name="dataCategory" value="target" />Target
 				</div>
 
 
 
 				<div class="row" class="gistLink" id="gistLinkContainer">
-					Selected Magnitude: <br />
-					<br /> 
-					<select id="headerOptions"></select>
-				<br/><br/>
-				<input type="button" value="Upload" onclick="selectMagnitude();" class="button tiny" />
+					Selected Magnitude: <br /> <br /> <select id="headerOptions"></select>
+					<br /> <br /> <input type="button" value="Upload"
+						onclick="selectMagnitude();" class="button tiny" />
 				</div>
 				<div id='clearPoints' class="row" style="display: none">
-				<hr>
-					Click to delete all points<br/><br/>
-				<button class="button tiny" >Clear
-					All Points</button>
-				</div>	
+					<hr>
+					Click to delete all points<br /> <br />
+					<button class="button tiny">Clear All Points</button>
+				</div>
 			</div>
 
 			<br /> <br />
 
-			<div id='niceRow' style="padding: 40px;" class="row"><h1>Regression</h1>
-				<input type="button" value="+" style="float: right;" onclick="createNewAmenitySelection();"/>
-				
+			<div id='niceRow'
+				style="padding: 20px; position: relative; left: -13px;" class="row">
+
+				<h4>Regression</h4>
+
+				<input type="button" value="+" style="float: right;"
+					onclick="createNewAmenitySelection();" />
+
 				<table id='regressionTable' style="width: 250px">
 					<tr>
 						<th>Amenity</th>
@@ -86,47 +89,141 @@
 						<th>Value</th>
 					</tr>
 					<tr>
-						<td>
-							<select name="cars">
-									<option value="volvo">Volvo</option>
-									<option value="saab">Saab</option>
-									<option value="fiat">Fiat</option>
-									<option value="audi">Audi</option>
-							</select>
-						</td>
-						<td>
-							<select name="regressionType" onchange="this.form.submit()">
-									<option value="distance">Distance</option>
-									<option value="radius">Radius</option>
-									<option value="magnitude">Magnitude</option>
-							</select>
-						</td>
-						<td>
-							<select name="dataHeaders">
-									<option value="distance">Distance</option>
-									<option value="radius">Radius</option>
-									<option value="magnitude">Magnitude</option>
-							</select>
-						</td>
+						<td><select name="cars">
+								<option value="volvo">Volvo</option>
+								<option value="saab">Saab</option>
+								<option value="fiat">Fiat</option>
+								<option value="audi">Audi</option>
+						</select></td>
+						<td><select name="regressionType"
+							onchange="this.form.submit()">
+								<option value="distance">Distance</option>
+								<option value="radius">Radius</option>
+								<option value="magnitude">Magnitude</option>
+						</select></td>
+						<td><select name="dataHeaders">
+								<option value="distance">Distance</option>
+								<option value="radius">Radius</option>
+								<option value="magnitude">Magnitude</option>
+						</select></td>
 					</tr>
 				</table>
-				</div>
+				<input type="button" value="Submit" class="button tiny" />
+			</div>
 
 		</div>
 
-		<div id='left-bottom' class="small-12 medium-12 large-1 columns">
-
-		</div>
+		<div class="small-12 medium-12 large-1 columns"></div>
 
 		<div id='coolborder' class="small-12 medium-12 large-8 columns">
-			<div id='map'></div>
+			<div class="small-12 medium-12 large-12 columns" id='map'></div>
 		</div>
 	</div>
 
 
-	<div style="padding: 50px;" class="small-12 medium-12 large-12 columns">
-		<div class="row" align="right">
-			Powered by Allah
+	<div class="small-12 medium-12 large-12 columns" style="padding: 10px;">
+		<div id='niceRow' style="padding: 30px; background: white;"
+			class="small-12 medium-12 large-12 columns">
+			<h3>
+				<i>Results</i>
+			</h3>
+			<!-- <div class='row'> -->
+			<div id='coolborder' class="small-6 medium-3 large-3 columns">
+				<h5>
+					<i>Moran Analysis:</i>
+				</h5>
+
+				<table class="text-center">
+					<tr>
+						<th>I Statistics<br/>&nbsp;</th>
+						<th>P Value<br/>&nbsp;</th>
+					</tr>
+					<tr>
+						<td><i>0.76854</i></td>
+						<td><i>0.021788</i></td>
+					</tr>
+				</table>
+
+				<!-- <div class="row">
+					<div class="small-6 medium-6 large-5 columns">I Statistics:</div>
+					<div class="small-6 medium-6 large-7 columns">
+						<strong><i>0.76854</i></strong>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="small-6 medium-6 large-5 columns">P Value:</div>
+					<div class="small-6 medium-6 large-7 columns">
+						<strong><i>0.021788</i></strong>
+					</div>
+				</div> -->
+
+			</div>
+			<div id='coolborder' class="small-6 medium-3 large-3 columns">
+				<h5>
+					<i>Quadrat Analysis:</i>
+				</h5>
+
+				<div class="row">
+					<table class="text-center">
+						<tr>
+							<th>X-Squared<br/>&nbsp;</th>
+							<th>P Value<br/>&nbsp;</th>
+						</tr>
+						<tr>
+							<td><i>81.6538</i></td>
+							<td><i>6.619e-08</i></td>
+						</tr>
+					</table>
+
+					<!-- <div class="row">
+						<div class="small-6 medium-6 large-5 columns">X-Squared:</div>
+						<div class="small-6 medium-6 large-7 columns">
+							<strong><i>81.6538</i></strong>
+						</div>
+					</div>
+
+					<div class="small-6 medium-6 large-5 columns">P Value:</div>
+					<div class="small-6 medium-6 large-7 columns">
+						<strong><i>6.619e-08</i></strong>
+					</div> -->
+				</div>
+
+			</div>
+			<div id='coolborder' class="small-6 medium-3 large-6 columns">
+				<h5>
+					<i>Regression Analysis: </i>
+				</h5>
+
+				<div class="row">
+					<table class="text-center">
+						<tr>
+							<th>Coefficient Estimate</th>
+							<th>School Rating</th>
+							<th>N Clinics (1000m)</th>
+							<th>Nearest Hospital Distance</th>
+						</tr>
+
+						<tr>
+							<td><i>0.000894</i></td>
+							<td><i>0.49</i></td>
+							<td><i>0.021</i></td>
+							<td><i>0.63</i></td>
+						</tr>
+
+					</table>
+
+				</div>
+
+
+			</div>
+			<!-- <div id ='coolborder' class="small-6 medium-3 large-3 columns">
+				<h5>
+					<i>GWR Analysis:</i>
+				</h5>
+			</div> -->
+
+
 			<div id="statsResults" class="small-12 medium-12 large-12 columns">
 				<div class="small-12 medium-12 large-12 columns" id="statsScore"></div>
 			</div>
