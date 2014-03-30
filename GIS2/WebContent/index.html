@@ -8,12 +8,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet" href="js/leaflet-0.7.2/leaflet.css" />
-
-
 <link rel="stylesheet" href="js/csv-to-geojson-master/css/style.css">
 
 <!--main stylesheet-->
 <link rel="stylesheet" href="css/style.css" />
+
 <!--foundation stylesheet-->
 <link rel="stylesheet" href="css/foundation.min.css">
 <link rel="stylesheet" href="css/foundation.css">
@@ -29,19 +28,11 @@
 <script src="js/csv-to-geojson-master/js/libs/CsvToJson.js"></script>
 <script src="js/csv-to-geojson-master/js/app.js"></script>
 
-
-
-
-
 <!-- Custom Modernizr for Foundation -->
 <script src="js/modernizr.js"></script>
 
 <!--libraries-->
 <script src="js/foundation.min.js"></script>
-
-
-
-
 
 </head>
 
@@ -50,57 +41,52 @@
 
 	<div class="small-12 medium-12 large-12 columns">
 
-		<div class="row">
-			<div align='center' style="padding: 50px;"
-				class="small-12 medium-12 large-12 columns">
-				<h1>My GIS App</h1>
-			</div>
+		<div id='niceTitle' class="small-12 medium-12 large-12 columns">
+			<h1>My GIS App</h1>
 		</div>
 
 		<!-- <div class="row"> -->
 		<div class="small-12 medium-12 large-3 columns">
 
-		<div id='coolborder'  class='row'>
-			<div class="row">
-				<input type="file" id="csvFileInput"
-					onchange="handleFiles(this.files)" accept=".csv" />
+			<div id='niceRow' style="padding: 40px;" class='row'>
+				<div class="row">
+					Choose file to Upload: <br />
+					<br /> <input type="file" id="csvFileInput"
+						onchange="handleFiles(this.files)" accept=".csv" /> <input
+						type="radio" name="dataCategory" value="amenity" checked="checked" />Amenity
+					<input type="radio" name="dataCategory" value="target" />Target
+				</div>
+
+
+
+				<div class="row" class="gistLink" id="gistLinkContainer">
+					Selected Magnitude: <br />
+					<br /> 
+					<select id="headerOptions"></select>
+				<br/><br/>
+				<input type="button" value="Upload" onclick="selectMagnitude();" class="button tiny" />
+				</div>
+				<div id='clearPoints' class="row" style="display: none">
+				<hr>
+					Click to delete all points<br/><br/>
+				<button class="button tiny" >Clear
+					All Points</button>
+				</div>	
 			</div>
 
-			<div class="row">
-				<input type="radio" name="dataCategory" value="amenity"
-					checked="checked" />Amenity <input type="radio" name="dataCategory"
-					value="target" />Target
-			</div>
+			<br /> <br />
 
-			<div class="row" class="gistLink" id="gistLinkContainer">
-				Selected Magnitude: <br /> <select id="headerOptions"></select>
-			</div>
+			<div id='niceRow' style="padding: 40px;" class="row">test</div>
 
-			<input type="button" value="Upload" onclick="selectMagnitude();" />
-			<button id='clearPoints' class="button tiny">Clear All Points</button>
 		</div>
-			
-			<br/><br/>
-			<div id='coolborder'  class="row">
-			test
-			</div>
 
-		</div>
+		<div id='left-bottom' class="small-12 medium-12 large-1 columns">
 
-		<div id ='left-bottom' class="small-12 medium-12 large-1 columns">
-			<input type="button" value="Upload" onclick="selectMagnitude();" />
 		</div>
 
 		<div id='coolborder' class="small-12 medium-12 large-8 columns">
-
 			<div id='map'></div>
-
 		</div>
-		
-		
-		
-
-
 	</div>
 
 

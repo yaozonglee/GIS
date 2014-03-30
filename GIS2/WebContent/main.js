@@ -75,12 +75,6 @@ function setMap() {
   // legendControl.addTo(map);
 
   
-//  map.addLayer(CCData);
-//  map.addLayer(ChildCareData);
-//  map.addLayer(HawkerCentreData);
-//  map.addLayer(KinderGartenData);
-//  map.addLayer(PrivateEducationData);
-  
    $.getJSON('data/PrivateEducation.geojson', function(data) { 
     L.geoJson(data, {     
       onEachFeature: function (feature, layer) {   
@@ -311,10 +305,11 @@ function onMapClick(e) {
 }
 
 $('#clearPoints').click(function(){
-  // alert("Allah");
+$('#clearPoints').css('display','none');
   userMarkersPos=new Array();
   map.removeLayer(userMarkers);
   userMarkers = new L.LayerGroup();
+  map.addLayer(userMarkers);
 });
 
 //function plotCircle(data,radius){
