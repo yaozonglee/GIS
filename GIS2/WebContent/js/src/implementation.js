@@ -96,6 +96,23 @@ function sendTestData(dd){
 	processUpload();
 }
 
+function createNewAmenitySelection(){
+	var newTableRow = '<tr><td><select name="amenities">'; 
+	$.ajax({
+		url : "/GIS2/GetAllAmenities",
+		type : "get"
+	}).done(function(result) {
+		result =  $.parseJSON(result);
+		console.log(result);
+		$.each(result, function(index, value){
+			newTableRow += ('<option value="'+value+'">'+value+'</option>');
+		});
+		newTableRow += '</select></td>';
+		$('#statsScore').html(result);
+	});
+	$('#regressionTable').append('<tr><td><select name="cars"><option value="volvo">Volvo</option><option value="saab">Saab</option><option value="fiat">Fiat</option><option value="audi">Audi</option></select></td><td><select name="meh"><option value="volvo">Volvo</option><option value="saab">Saab</option><option value="fiat">Fiat</option><option value="audi">Audi</option></select></td><td>94</td></tr>');
+}
+
 function errorHandler(evt) {
 	if (evt.target.error.name == "NotReadableError") {
 		alert("Canno't read file !");

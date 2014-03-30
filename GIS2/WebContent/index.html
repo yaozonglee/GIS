@@ -76,7 +76,41 @@
 
 			<br /> <br />
 
-			<div id='niceRow' style="padding: 40px;" class="row">test</div>
+			<div id='niceRow' style="padding: 40px;" class="row"><h1>Regression</h1>
+				<input type="button" value="+" style="float: right;" onclick="createNewAmenitySelection();"/>
+				
+				<table id='regressionTable' style="width: 250px">
+					<tr>
+						<th>Amenity</th>
+						<th>Type</th>
+						<th>Value</th>
+					</tr>
+					<tr>
+						<td>
+							<select name="cars">
+									<option value="volvo">Volvo</option>
+									<option value="saab">Saab</option>
+									<option value="fiat">Fiat</option>
+									<option value="audi">Audi</option>
+							</select>
+						</td>
+						<td>
+							<select name="regressionType" onchange="this.form.submit()">
+									<option value="distance">Distance</option>
+									<option value="radius">Radius</option>
+									<option value="magnitude">Magnitude</option>
+							</select>
+						</td>
+						<td>
+							<select name="dataHeaders">
+									<option value="distance">Distance</option>
+									<option value="radius">Radius</option>
+									<option value="magnitude">Magnitude</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+				</div>
 
 		</div>
 
