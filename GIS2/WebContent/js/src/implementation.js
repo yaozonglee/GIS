@@ -40,39 +40,44 @@ function processData(csv) {
 	mycsv = lines;
 	originalCsv = csv;
 	$('#headerOptions').empty();
-	$('<option value='+"0"+'>'+''+'</option>').appendTo('#headerOptions');
-	$.each(mycsv[0], function( index, value ) {
-//		  alert( index + ": " + value );
-		  //var radioBtn = $('<input type="radio" name="header" value = '+value+'>'+value+'<br>');
-		var option = $('<option value='+(index+1)+'>'+value+'</option>');
+	$('<option value=' + "0" + '>' + '' + '</option>').appendTo(
+			'#headerOptions');
+	$.each(mycsv[0], function(index, value) {
+		// alert( index + ": " + value );
+		// var radioBtn = $('<input type="radio" name="header" value =
+		// '+value+'>'+value+'<br>');
+		var option = $('<option value=' + (index + 1) + '>' + value
+				+ '</option>');
 		option.appendTo('#headerOptions');
 	});
 }
 
-function selectMagnitude(){
+function selectMagnitude() {
 	// Send to Server
 	selectedVal = "";
-//	var selected = $("input[type='radio'][name='header']:checked");
-//	if (selected.length > 0) {
-//	    selectedVal = selected.val();
-//	}
+	// var selected = $("input[type='radio'][name='header']:checked");
+	// if (selected.length > 0) {
+	// selectedVal = selected.val();
+	// }
 	selectedVal = $("#headerOptions option:selected").val();
 	sendData(selectedVal);
 }
 
-function sendData(selectedMag){
+function sendData(selectedMag) {
 	console.log('hello ' + selectedMag);
 	$.ajax({
 		url : "/GIS2/ProcessFile",
 		type : "post",
-		data: {meh : originalCsv,
+		data : {
+			meh : originalCsv,
 			mag : selectedMag,
-			fileName : $('#fileName').val()}
+			fileName : $('#fileName').val()
+		}
 	}).done(function(result) {
 		console.log(result);
 		var stat = $.parseJSON(result);
 		var printToScreen = "";
-		$.each(stat, function(index, value){
+		$.each(stat, function(index, value) {
 			printToScreen += (value[0] + ": " + value[1] + "</br>");
 		});
 		$('#statsScore').html(printToScreen);
@@ -82,12 +87,14 @@ function sendData(selectedMag){
 	processUpload();
 }
 
-function sendTestData(dd){
+function sendTestData(dd) {
 	console.log('Test Send ' + dd);
 	$.ajax({
 		url : "/GIS2/test",
 		type : "post",
-		data: {'meh' : dd}
+		data : {
+			'meh' : dd
+		}
 	}).done(function(result) {
 		console.log(result);
 		$('#statsScore').html(result);
@@ -97,52 +104,90 @@ function sendTestData(dd){
 	processUpload();
 }
 
-function createNewAmenitySelection(){
-	var newTableRow = '<tr><td><select name="amenities">'; 
-	$.ajax({
-		url : "/GIS2/GetAllAmenities",
-		type : "get"
-	}).done(function(result) {
-		result =  $.parseJSON(result);
-		$.each(result, function(index, value){
-			newTableRow += ('<option value="'+value+'">'+value+'</option>');
-		});
-		newTableRow += '</select></td>';
-		newTableRow += '<td><select name="regressionType" onchange="return createValueInput(this.value)"><option value="radius">Radius</option><option value="distance">Distance</option><option value="magnitude">Magnitude</option></select></td><td><input type="text" name="radius" style="width:50px;"/></td>';
-		//$('#statsScore').html(result);
-		//$('#regressionTable').append('<tr><td><select name="cars"><option value="volvo">Volvo</option><option value="saab">Saab</option><option value="fiat">Fiat</option><option value="audi">Audi</option></select></td><td><select name="meh"><option value="volvo">Volvo</option><option value="saab">Saab</option><option value="fiat">Fiat</option><option value="audi">Audi</option></select></td><td>94</td></tr>');
-		$('#regressionTable').append(newTableRow);
-	});
+function createNewAmenitySelection() {
+	var newTableRow = '<tr><td><select name="amenities">';
+	$
+			.ajax({
+				url : "/GIS2/GetAllAmenities",
+				type : "get"
+			})
+			.done(
+					function(result) {
+						result = $.parseJSON(result);
+						$.each(result, function(index, value) {
+							newTableRow += ('<option value="' + value + '">'
+									+ value + '</option>');
+						});
+						newTableRow += '</select></td>';
+						newTableRow += '<td><select name="regressionType" onchange="return createValueInput(this.value)"><option value="radius">Radius</option><option value="distance">Distance</option><option value="magnitude">Magnitude</option></select></td><td><input type="text" name="radius" style="width:50px;"/></td>';
+						$('#regressionTable').append(newTableRow);
+					});
 }
 
-function createValueInput(value){
-	if(value === "radius"){
-		$(event.srcElement.parentElement.parentElement.children[2]).html('<input type="text" name="radius" style="width:50px;"/>');
-	}else if(value === "distance"){
-		$(event.srcElement.parentElement.parentElement.children[2]).html('<input type="text" disabled="disabled" style="width:50px;"/>');
-	}else if(value === "magnitude"){
+function createValueInput(value) {
+	if (value === "radius") {
+		$(event.srcElement.parentElement.parentElement.children[2]).html(
+				'<input type="text" name="radius" style="width:50px;"/>');
+	} else if (value === "distance") {
+		$(event.srcElement.parentElement.parentElement.children[2]).html(
+				'<input type="text" disabled="disabled" style="width:50px;"/>');
+	} else if (value === "magnitude") {
 		var userAmenitySelection = '<select name="userAmenity">';
 		var location = $(event.srcElement.parentElement.parentElement.children[2]);
-		var selectedFileName = $(event.srcElement.parentElement.parentElement.children[0]).find('option:selected').text();
+		var selectedFileName = $(
+				event.srcElement.parentElement.parentElement.children[0]).find(
+				'option:selected').text();
 		$.ajax({
 			url : "/GIS2/GetFileHeaders",
 			type : "get",
-			data : {'fileName': selectedFileName}
-		}).done(function(result) {
-			if(result.length > 0 ){
-				result =  $.parseJSON(result);
-				$.each(result, function(index, value){
-					userAmenitySelection += ('<option value="'+value+'">'+value+'</option>');
-				});
-				userAmenitySelection += '</select>';
-				location.html(userAmenitySelection);
-			}else{
-				location.html('No Options');
+			data : {
+				'fileName' : selectedFileName
 			}
-		});
-		
-		
+		}).done(
+				function(result) {
+					if (result.length > 0) {
+						result = $.parseJSON(result);
+						$.each(result, function(index, value) {
+							userAmenitySelection += ('<option value="' + index
+									+ '">' + value + '</option>');
+						});
+						userAmenitySelection += '</select>';
+						location.html(userAmenitySelection);
+					} else {
+						location.html('No Options');
+					}
+				});
+
 	}
+}
+
+function grabRegSettings() {
+	var result = "";
+	var last = "";
+	$('#regressionTable > tbody  > tr').each(function(index1, value1) {
+		if (index1 > 0) {
+			$.each(value1.children, function(index2, value2) {
+				if (index2 < 2) {
+					console.log($(value2).find('option:selected').val());
+					result += ($(value2).find('option:selected').val() + ",");
+					last = $(value2).find('option:selected').val();
+				}else{
+					if(last === "radius"){
+						console.log($(value2).find('input:text[name=radius]').val());
+						result += $(value2).find('input:text[name=radius]').val();
+					}else if(last === "distance"){
+						console.log($(value2).find('input:text').val());
+						result += $(value2).find('input:text').val();
+					}else if(last === "magnitude"){
+						console.log(parseInt($(value2).find('option:selected').val()) + 1);
+						result += (parseInt($(value2).find('option:selected').val()) + 1);
+					}
+					result += "`";
+				}
+			});
+		}
+	});
+	console.log(result);
 }
 
 function errorHandler(evt) {
