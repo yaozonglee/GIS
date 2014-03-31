@@ -104,7 +104,6 @@ function createNewAmenitySelection(){
 		type : "get"
 	}).done(function(result) {
 		result =  $.parseJSON(result);
-		console.log(result);
 		$.each(result, function(index, value){
 			newTableRow += ('<option value="'+value+'">'+value+'</option>');
 		});
@@ -124,17 +123,22 @@ function createValueInput(value){
 	}else if(value === "magnitude"){
 		var userAmenitySelection = '<select name="userAmenity">';
 		var location = $(event.srcElement.parentElement.parentElement.children[2]);
+		var selectedFileName = $(event.srcElement.parentElement.parentElement.children[0]).find('option:selected').text();
 		$.ajax({
-			url : "/GIS2/GetAllAmenities",
-			type : "get"
+			url : "/GIS2/GetFileHeaders",
+			type : "get",
+			data : {'fileName': selectedFileName}
 		}).done(function(result) {
-			result =  $.parseJSON(result);
-			console.log(result);
-			$.each(result, function(index, value){
-				userAmenitySelection += ('<option value="'+value+'">'+value+'</option>');
-			});
-			userAmenitySelection += '</select>';
-			location.html(userAmenitySelection);
+			if(result.length > 0 ){
+				result =  $.parseJSON(result);
+				$.each(result, function(index, value){
+					userAmenitySelection += ('<option value="'+value+'">'+value+'</option>');
+				});
+				userAmenitySelection += '</select>';
+				location.html(userAmenitySelection);
+			}else{
+				location.html('No Options');
+			}
 		});
 		
 		
