@@ -3,6 +3,7 @@ package handler;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.Rserve.RConnection;
@@ -10,8 +11,9 @@ import org.rosuda.REngine.Rserve.RConnection;
 public class FileResult {
 	
 	ArrayList<String> result;
+	static HashMap<String, String> userFileList = new HashMap<String,String>();
 	
-	public FileResult(String data, String functionName, String mag){
+	public FileResult(String data, String functionName, String mag, String fileName){
 		RConnection c = null;
 		try {
 			c = new RConnection();
@@ -23,6 +25,9 @@ public class FileResult {
 			writer.write(data);
             writer.close();
 			
+            //hold the user data
+            userFileList.put(fileName, data);
+            
             REXP expResult = null;
             if(mag == null){
             	expResult = c.eval( functionName + "()");

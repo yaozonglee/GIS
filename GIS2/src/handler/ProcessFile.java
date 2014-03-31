@@ -44,13 +44,14 @@ public class ProcessFile extends HttpServlet {
 		JSONArray finalResult = new JSONArray();
 		String csv = request.getParameter("meh");
 		String mag = request.getParameter("mag");
+		String fileName = request.getParameter("fileName");
 		System.out.println("Mag: " + mag);
 		
 		FileResult result = null;
 		if(mag.equals("0")){
-			result = new FileResult(csv, "Quadrat", null);
+			result = new FileResult(csv, "Quadrat", null, fileName);
 		}else{
-			result = new FileResult(csv, "MoranMagnitude", mag);
+			result = new FileResult(csv, "MoranMagnitude", mag, fileName);
 		}
 		JSONArray arr = null;
 		ArrayList<String> statScore = result.getResults();

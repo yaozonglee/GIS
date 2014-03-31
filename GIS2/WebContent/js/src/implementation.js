@@ -66,7 +66,8 @@ function sendData(selectedMag){
 		url : "/GIS2/ProcessFile",
 		type : "post",
 		data: {meh : originalCsv,
-			mag : selectedMag}
+			mag : selectedMag,
+			fileName : $('#fileName').val()}
 	}).done(function(result) {
 		console.log(result);
 		var stat = $.parseJSON(result);
@@ -108,10 +109,36 @@ function createNewAmenitySelection(){
 			newTableRow += ('<option value="'+value+'">'+value+'</option>');
 		});
 		newTableRow += '</select></td>';
-		newTableRow += '<td><select name="regressionType" onchange="this.form.submit()"><option value="distance">Distance</option><option value="radius">Radius</option><option value="magnitude"Magnitude</option></select></td>';
-		$('#statsScore').html(result);
+		newTableRow += '<td><select name="regressionType" onchange="return createValueInput(this.value)"><option value="radius">Radius</option><option value="distance">Distance</option><option value="magnitude">Magnitude</option></select></td><td><input type="text" name="radius" style="width:50px;"/></td>';
+		//$('#statsScore').html(result);
+		//$('#regressionTable').append('<tr><td><select name="cars"><option value="volvo">Volvo</option><option value="saab">Saab</option><option value="fiat">Fiat</option><option value="audi">Audi</option></select></td><td><select name="meh"><option value="volvo">Volvo</option><option value="saab">Saab</option><option value="fiat">Fiat</option><option value="audi">Audi</option></select></td><td>94</td></tr>');
+		$('#regressionTable').append(newTableRow);
 	});
-	$('#regressionTable').append('<tr><td><select name="cars"><option value="volvo">Volvo</option><option value="saab">Saab</option><option value="fiat">Fiat</option><option value="audi">Audi</option></select></td><td><select name="meh"><option value="volvo">Volvo</option><option value="saab">Saab</option><option value="fiat">Fiat</option><option value="audi">Audi</option></select></td><td>94</td></tr>');
+}
+
+function createValueInput(value){
+	if(value === "radius"){
+		$(event.srcElement.parentElement.parentElement.children[2]).html('<input type="text" name="radius" style="width:50px;"/>');
+	}else if(value === "distance"){
+		$(event.srcElement.parentElement.parentElement.children[2]).html('<input type="text" disabled="disabled" style="width:50px;"/>');
+	}else if(value === "magnitude"){
+		var userAmenitySelection = '<select name="userAmenity">';
+		var location = $(event.srcElement.parentElement.parentElement.children[2]);
+		$.ajax({
+			url : "/GIS2/GetAllAmenities",
+			type : "get"
+		}).done(function(result) {
+			result =  $.parseJSON(result);
+			console.log(result);
+			$.each(result, function(index, value){
+				userAmenitySelection += ('<option value="'+value+'">'+value+'</option>');
+			});
+			userAmenitySelection += '</select>';
+			location.html(userAmenitySelection);
+		});
+		
+		
+	}
 }
 
 function errorHandler(evt) {

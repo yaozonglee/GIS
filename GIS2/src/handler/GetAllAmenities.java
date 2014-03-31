@@ -36,6 +36,9 @@ public class GetAllAmenities extends HttpServlet {
 		arr.put("Hawker Centres");
 		arr.put("Kinder Gartens");
 		arr.put("Private Education");
+		for(String key: FileResult.userFileList.keySet()){
+			arr.put(key);
+		}
 		response.getWriter().write(arr.toString());
 		
 	}
