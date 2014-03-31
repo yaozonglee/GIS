@@ -72,7 +72,8 @@ function processUpload() {
         Point: [latName, lonName]
     }, function(geojson) {
     	//plot uploaded file on map
-        L.geoJson(geojson).addTo(map);
+//        L.geoJson(geojson).addTo(map);
+        layerControl.addOverlay(L.geoJson(geojson), $('#fileName').val());
         aaa = massagedData;
     });
 }

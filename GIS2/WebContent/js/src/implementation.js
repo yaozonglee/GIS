@@ -108,6 +108,7 @@ function createNewAmenitySelection(){
 			newTableRow += ('<option value="'+value+'">'+value+'</option>');
 		});
 		newTableRow += '</select></td>';
+		newTableRow += '<td><select name="regressionType" onchange="this.form.submit()"><option value="distance">Distance</option><option value="radius">Radius</option><option value="magnitude"Magnitude</option></select></td>';
 		$('#statsScore').html(result);
 	});
 	$('#regressionTable').append('<tr><td><select name="cars"><option value="volvo">Volvo</option><option value="saab">Saab</option><option value="fiat">Fiat</option><option value="audi">Audi</option></select></td><td><select name="meh"><option value="volvo">Volvo</option><option value="saab">Saab</option><option value="fiat">Fiat</option><option value="audi">Audi</option></select></td><td>94</td></tr>');
