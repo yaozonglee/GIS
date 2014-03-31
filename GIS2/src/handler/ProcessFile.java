@@ -1,5 +1,7 @@
 package handler;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +47,16 @@ public class ProcessFile extends HttpServlet {
 		String csv = request.getParameter("meh");
 		String mag = request.getParameter("mag");
 		String fileName = request.getParameter("fileName");
-		System.out.println("Mag: " + mag);
+		
+		//write to file
+		String filePath = "/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/";
+		File userFile = new File(filePath + fileName + ".csv");
+		if(!userFile.exists()){
+			userFile.createNewFile();
+		}
+		FileWriter writer = new FileWriter(userFile, false);
+		writer.write(csv);
+        writer.close();
 		
 		FileResult result = null;
 		if(mag.equals("0")){
