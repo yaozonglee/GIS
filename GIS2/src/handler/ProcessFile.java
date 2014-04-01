@@ -47,6 +47,7 @@ public class ProcessFile extends HttpServlet {
 		String csv = request.getParameter("meh");
 		String mag = request.getParameter("mag");
 		String fileName = request.getParameter("fileName");
+		String fileType = request.getParameter("fileType");
 		
 		//write to file
 		String filePath = "/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/";
@@ -58,6 +59,13 @@ public class ProcessFile extends HttpServlet {
 		writer.write(csv);
         writer.close();
 		
+        //write to target file
+        if(fileType.equals("target")){
+        	writer = new FileWriter(filePath + "target.csv", false);
+    		writer.write(csv);
+            writer.close();
+        }
+        
 		FileResult result = null;
 		if(mag.equals("0")){
 			result = new FileResult(csv, "Quadrat", null, fileName);

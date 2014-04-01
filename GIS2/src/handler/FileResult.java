@@ -12,6 +12,7 @@ public class FileResult {
 	
 	ArrayList<String> result;
 	static HashMap<String, String> userFileList = new HashMap<String,String>();
+	static String targetMag = "";
 	
 	public FileResult(String data, String functionName, String mag, String fileName){
 		RConnection c = null;
