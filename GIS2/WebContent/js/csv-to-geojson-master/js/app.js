@@ -56,9 +56,6 @@ App.prototype.init = function() {
 
 };
 
-markers = new L.MarkerClusterGroup();
-map.addLayer(markers);
-
 function processUpload() {
     var csvObject = mycsv;
     var util = new Util();

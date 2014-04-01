@@ -38,7 +38,6 @@ Quadrat <- function(){
   library(maptools)
   library(spatstat)
   
-  
   points <- read.csv("/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
   # retrieve points
   coord <- cbind(points$longitude,points$latitude)
@@ -165,9 +164,6 @@ test2 <- function(arg){
 }
 
 QuadratTest<-function(jsonString){
-  library(rgdal)
-  library(maptools)
-  library(spatstat)
   points <- readOGR(dsn=jsonString,layer='OGRGeoJSON')
   
   ppp=as(as(points, "SpatialPoints"),"ppp")
@@ -175,4 +171,93 @@ QuadratTest<-function(jsonString){
   # quadrant test
   temp <- quadrat.test(ppp);
   return (temp)
+}
+
+ComputeMagnitude <- function(pointO, pointT, magCol, colName ){
+  library(spdep)
+  
+  #  Define these vectors, used in the loop.
+  
+  closestSiteVec <- vector(mode = "numeric",length = nrow(pointO))
+  minDistVec     <- vector(mode = "numeric",length = nrow(pointO))
+  dataFrame <- as.data.frame(pointT)
+  
+  for (i in 1 : nrow(pointO))
+  {
+    distVec <- spDistsN1(pointT,pointO[i,],longlat = TRUE)
+    closestSiteVec[i] <- dataFrame[which.min(distVec),magCol]
+  }
+  #
+  # Create the Temperature Assignment table: merge the temperature point list with the transect point list
+  # into a five-column table by merging the temperature point and transect point lists.
+  #
+  #PointAssignTemps <- (pointO[closestSiteVec,])
+  FinalTable = data.frame(pointO,closestSiteVec)
+  # Change distance name
+  names(FinalTable)[NCOL(FinalTable)] <-colName
+  
+  return (FinalTable)
+}
+
+# function: computation
+computation <- function(fatString){
+  library(spdep)
+  calStrings <- strsplit(fatString,"~",fixed=FALSE)[[1]]
+  
+  # first string
+  firstString <- strsplit(calStrings[1],",",fixed=FALSE)[[1]]
+  
+  point.target <- read.csv(firstString[1], header=TRUE, sep=",")
+  point.target.column <- as.numeric(firstString[2])
+  targetColName <- names(point.target)[point.target.column]
+  coordinates(point.target) <- c("longitude", "latitude")
+  print(point.target.column)
+  count = 0
+  
+  variables <-  (1:(length(calStrings)-1))
+  
+  
+  for (i in 2:length(calStrings)) {
+    nextString <- strsplit(calStrings[i],",",fixed=FALSE)[[1]]
+    
+    command <- nextString[2]
+    
+    # retrieve point
+    print(nextString[1])
+    point.amenity <- read.csv(nextString[1], header=TRUE, sep=",")
+    coordinates(point.amenity) <- c("longitude", "latitude")
+    if(command=="distance"){
+      #point.target<-ComputeDistance(point.target,point.amenity,paste("'D",nextString[1],"'",sep=""))
+      variables[i-1] <- paste("DIST",(nextString[4]),sep="")
+      print(variables[i-1])
+      point.target<-ComputeDistance(point.target,point.amenity,variables[i-1])
+      #variables[i-1] <- "DIST"
+    } else if(command=="radius"){
+      r <- as.numeric(nextString[2])
+      #point.target<-CountNinR(point.target,point.amenity,6,paste("'R",nextString[1],"'",sep=""))
+      colIndex <- as.numeric(nextString[3])
+      print(colIndex)
+      variables[i-1] <- paste("RADIUS",(nextString[4]),sep="")
+      point.target<-CountNinR(point.target,point.amenity,colIndex,variables[i-1])
+      #variables[i-1] <- "RADIUS"
+      #CountNinR
+    } else if(command=="magnitude"){
+      print("the")
+      colIndex <- as.numeric(nextString[3])
+      variables[i-1] <- paste("MAG",(nextString[4]),sep="")
+      point.target <- ComputeMagnitude(point.target,point.amenity,colIndex,variables[i-1])
+    }
+    # convert point back to data frame
+    coordinates(point.target) <- c("longitude", "latitude")
+    print("the")
+  }
+  
+  # calculate linear model
+  
+  # compute formula
+  print(paste(targetColName,paste(" ~ ", paste(variables, collapse= "+"))))
+  fmla <- as.formula(paste(targetColName,paste(" ~ ", paste(variables, collapse= "+"))))
+  indev_lm <- lm(fmla, data = point.target)
+  
+  return(indev_lm)
 }

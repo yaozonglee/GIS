@@ -64,6 +64,7 @@ public class ProcessFile extends HttpServlet {
         	writer = new FileWriter(filePath + "target.csv", false);
     		writer.write(csv);
             writer.close();
+            FileResult.targetMag = mag;
         }
         
 		FileResult result = null;

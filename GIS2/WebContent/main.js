@@ -26,6 +26,8 @@ var markers;
 var userMarkers;
 var userMarkersPos=new Array();
 
+
+
 window.onload = initialize(); 
 
 //the first function called once the html is loaded
@@ -64,7 +66,7 @@ function setMap() {
 
   //create  the map and set its initial view
   map = L.map('map',{layers:[]}).setView([1.355312,103.827068], 11);
-
+  
   // The {s} indicates possible server instances from which the map can draw tiles.  For each loaded tile, {z} indicates its zoom level, {x} indicates its horizontal coordinate, and {y} indicates its vertical coordinate.  Near all public tile services use this z/x/y directory format, which was pioneered by Google. 
   var layer = L.tileLayer(
     'http://{s}.tile.osm.org/{z}/{x}/{y}.png', 

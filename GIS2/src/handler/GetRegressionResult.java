@@ -1,11 +1,18 @@
 package handler;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.rosuda.REngine.REXP;
+import org.rosuda.REngine.Rserve.RConnection;
 
 /**
  * Servlet implementation class GetRegressionResult
@@ -32,13 +39,34 @@ public class GetRegressionResult extends HttpServlet {
 		String targetMag = FileResult.targetMag;
 		String amenityPath = "/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/";
 		String[] userInput = regData.split("~");
-		String preparedInput = targetPath + "," + targetMag + ",";
+		String preparedInput = targetPath + "," + targetMag + "~";
 		for(String xLine : userInput){
 			String[] xLineVals = xLine.split(",");
 			String amenityFullPath = amenityPath + xLineVals[0] + ".csv";
 			preparedInput += (amenityFullPath + "," + xLineVals[1] + "," + xLineVals[2] + "," + xLineVals[0] + "~");
 		}
 		System.out.println(preparedInput);
+		
+		RConnection c = null;
+		try {
+			c = new RConnection();
+			c.eval("source(\"/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/RScripts/Palindrome.R\")");
+
+			c.assign("str", preparedInput);
+            REXP is_abc_palindrome = c.eval("computation(str)");
+			System.out.println(is_abc_palindrome.toString());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (c != null) {
+				try {
+					c.close();
+
+				} finally {
+				}
+			}
+		}
 	}
 
 	/**
