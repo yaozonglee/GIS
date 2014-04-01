@@ -56,6 +56,8 @@ App.prototype.init = function() {
 
 };
 
+markers = new L.MarkerClusterGroup();
+map.addLayer(markers);
 
 function processUpload() {
     var csvObject = mycsv;
@@ -73,7 +75,24 @@ function processUpload() {
     }, function(geojson) {
     	//plot uploaded file on map
 //        L.geoJson(geojson).addTo(map);
-        layerControl.addOverlay(L.geoJson(geojson), $('#fileName').val());
+    	
+    	//added for cluster group
+    	L.geoJson(geojson, {     
+    	      onEachFeature: function (feature, layer) {   
+    	        var marker = new L.MapMarker(new L.LatLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]), {
+    	          gradient: true,
+    	          dropShadow: true,
+    	          radius: 20,
+    	          fillColor: 'hsl(' + 5 * 360 + ',100%,50%)'
+    	        });
+    	  
+    	    // Add the data layer to the map
+    	    markers.addLayer(marker);
+    	      }       
+    	    });
+    	
+    	
+//        layerControl.addOverlay(L.geoJson(geojson), $('#fileName').val());
         aaa = massagedData;
     });
 }
