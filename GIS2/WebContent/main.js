@@ -8,6 +8,8 @@ var HawkerCentreData=L.layerGroup();
 var KinderGartenData=L.layerGroup();
 var PrivateEducationData=L.layerGroup();
 
+
+
 var test;
 var test1;
 var test2;
@@ -74,6 +76,26 @@ function setMap() {
   // var legendControl = new L.Control.Legend({});
   // legendControl.addTo(map);
 
+  //for marker cluster
+  markers = new L.MarkerClusterGroup();
+  map.addLayer(markers);
+
+  
+  $.getJSON('data/PrivateEducation.geojson', function(data) { 
+	    L.geoJson(data, {     
+	      onEachFeature: function (feature, layer) {   
+	        var marker = new L.MapMarker(new L.LatLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]), {
+	          gradient: true,
+	          dropShadow: true,
+	          radius: 20,
+	          fillColor: 'hsl(' + 5 * 360 + ',100%,50%)'
+	        });
+	  
+	    // Add the data layer to the map
+	    markers.addLayer(marker);
+	      }       
+	    });
+	  });
   
    $.getJSON('data/PrivateEducation.geojson', function(data) { 
     L.geoJson(data, {     
