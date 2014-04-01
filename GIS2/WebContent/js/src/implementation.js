@@ -71,7 +71,8 @@ function sendData(selectedMag) {
 		data : {
 			meh : originalCsv,
 			mag : selectedMag,
-			fileName : $('#fileName').val()
+			fileName : $('#fileName').val(),
+			fileType : $('input[name=dataCategory]:checked').val()
 		}
 	}).done(function(result) {
 		console.log(result);
@@ -177,17 +178,30 @@ function grabRegSettings() {
 						result += $(value2).find('input:text[name=radius]').val();
 					}else if(last === "distance"){
 						console.log($(value2).find('input:text').val());
-						result += $(value2).find('input:text').val();
+						result += NaN;
 					}else if(last === "magnitude"){
 						console.log(parseInt($(value2).find('option:selected').val()) + 1);
 						result += (parseInt($(value2).find('option:selected').val()) + 1);
 					}
-					result += "`";
+					if(index1 !== ($('#regressionTable > tbody  > tr').length -1)){
+						result += "~";
+					}
 				}
 			});
 		}
 	});
+	sendRegressionData(result);
 	console.log(result);
+}
+
+function sendRegressionData(data){
+	$.ajax({
+		url : "/GIS2/GetRegressionResult",
+		type : "get",
+		data : {'regData' : data}
+	}).done(function(result) {
+		console.log(result);
+	});
 }
 
 function errorHandler(evt) {
