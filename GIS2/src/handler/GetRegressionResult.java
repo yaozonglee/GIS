@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.rosuda.REngine.REXP;
+import org.rosuda.REngine.REXPList;
+import org.rosuda.REngine.RFactor;
 import org.rosuda.REngine.Rserve.RConnection;
 
 /**
@@ -54,7 +57,18 @@ public class GetRegressionResult extends HttpServlet {
 
 			c.assign("str", preparedInput);
             REXP is_abc_palindrome = c.eval("computation(str)");
-			System.out.println(is_abc_palindrome.toString());
+            //String[] arr = is_abc_palindrome.asStrings();
+            //for(String x: arr){
+            	//System.out.println("A: " + x);
+            //}
+            REXP inter = is_abc_palindrome.getAttribute("coefficients");
+            double[][] lo = is_abc_palindrome.asDoubleMatrix();
+            //RFactor rfactor = is_abc_palindrome.asFactor();
+            String s = is_abc_palindrome.asString();
+            System.out.println(lo.toString());
+            System.out.println(is_abc_palindrome.toString());
+            System.out.println(is_abc_palindrome.asNativeJavaObject().toString());
+            
 			
 		} catch (Exception e) {
 			e.printStackTrace();

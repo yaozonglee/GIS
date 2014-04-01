@@ -258,6 +258,7 @@ computation <- function(fatString){
   print(paste(targetColName,paste(" ~ ", paste(variables, collapse= "+"))))
   fmla <- as.formula(paste(targetColName,paste(" ~ ", paste(variables, collapse= "+"))))
   indev_lm <- lm(fmla, data = point.target)
-  
-  return(indev_lm)
+  summ<-summary(indev_lm)
+  gg<-summ$coefficients
+  return(gg)
 }
