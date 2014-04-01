@@ -2,6 +2,8 @@ $(document).ready(function() {
     var app = new App("Gavin", "Rehkemper");
 });
 
+var previousFileName='';
+
 var App = makeClass();
 App.prototype.init = function() {
     $("#csvTextArea").click(function(evt) {
@@ -73,6 +75,14 @@ function processUpload() {
     	//plot uploaded file on map
 //        L.geoJson(geojson).addTo(map);
     	
+    	
+    	if(previousFileName!=''){
+    		map.removeLayer(previousFileName);
+    		map.removeLayer(markers);
+    		markers = new L.MarkerClusterGroup();
+    		map.addLayer(markers);
+    	}
+    	
     	//added for cluster group
     	L.geoJson(geojson, {     
     	      onEachFeature: function (feature, layer) {   
@@ -89,6 +99,10 @@ function processUpload() {
     	    });
     	
     	
+    	 
+    	previousFileName=$('#fileName').val();
+		layerControl.addOverlay(userMarkers, $('#fileName').val());
+		
 //        layerControl.addOverlay(L.geoJson(geojson), $('#fileName').val());
         aaa = massagedData;
     });
