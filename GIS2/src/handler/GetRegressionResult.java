@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.REXPList;
 import org.rosuda.REngine.RFactor;
+import org.rosuda.REngine.RList;
 import org.rosuda.REngine.Rserve.RConnection;
 
 /**
@@ -57,17 +59,38 @@ public class GetRegressionResult extends HttpServlet {
 
 			c.assign("str", preparedInput);
             REXP is_abc_palindrome = c.eval("computation(str)");
-            //String[] arr = is_abc_palindrome.asStrings();
-            //for(String x: arr){
-            	//System.out.println("A: " + x);
-            //}
-            REXP inter = is_abc_palindrome.getAttribute("coefficients");
             double[][] lo = is_abc_palindrome.asDoubleMatrix();
-            //RFactor rfactor = is_abc_palindrome.asFactor();
-            String s = is_abc_palindrome.asString();
+            System.out.println("DEBUG STRING: " + is_abc_palindrome.toDebugString());
+            RList dimNames = is_abc_palindrome.getAttribute("dimnames").asList();
+//            Iterator iter = dimNames.iterator();
+            for(int i = 0; i < dimNames.size(); i ++){
+            	REXP val = (REXP) dimNames.get(i);
+            	String[] valValues = val.asStrings();
+            	for(int j = 0; j < valValues.length; j++){
+            		System.out.println("Outer: " + i + " Inner: " + valValues[j]);
+            	}
+            }
+            
+//            while(iter.hasNext()){
+//            	REXP val = (REXP) iter.next();
+//            	System.out.println("iter: " + iter.next() + "size: " + dimNames.size());
+//            	String[] values = val.asStrings();
+//            	for(int i = 0; i < values.length; i++){
+//            		System.out.println("values " + i + " " +values[i]);
+//            	}
+//            }
+            
+            
+            int[] dimArr = is_abc_palindrome.dim();
+            for(int x: dimArr){
+            	System.out.println("dimArr: " + x);
+            }
+            String[] a = is_abc_palindrome.asStrings();
+            for(String x: a){
+            	System.out.println("Str: " + x);
+            }
             System.out.println(lo.toString());
-            System.out.println(is_abc_palindrome.toString());
-            System.out.println(is_abc_palindrome.asNativeJavaObject().toString());
+            
             
 			
 		} catch (Exception e) {
