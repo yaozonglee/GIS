@@ -65,20 +65,25 @@
 		<div class="small-12 medium-12 large-3 columns">
 
 			<div id='niceRow'
-				style="padding: 40px; position: relative; left: -13px;" class='row'>
+				style="padding: 40px; position: relative; left: 5px;" class='row'>
 				<div class="row">
-					Choose file to Upload: <br /> <br /> <input type="file"
+					<h5>Upload file for analysis</h5> 
+					
+					Name of points: <br /> <br />
+					<input id="fileName" type="text" name="fileName"/><br /> <br />
+					
+					<input type="file"
 						id="csvFileInput" onchange="handleFiles(this.files)" accept=".csv" />
 					<input type="radio" name="dataCategory" value="amenity"
-						checked="checked" />Amenity <input type="radio"
+						checked="checked" />Amenity &nbsp;<input type="radio"
 						name="dataCategory" value="target" />Target
 					
-					<br/>
+					<!-- 
 					Name of points: <br /> <br />
-					<input id="fileName" type="text" name="fileName"/>
+					<input id="fileName" type="text" name="fileName"/> -->
 				</div>
 
-
+				<br/>
 
 				<div class="row" class="gistLink" id="gistLinkContainer">
 					Selected Magnitude: <br /> <br /> <select id="headerOptions"></select>
@@ -95,7 +100,7 @@
 			<br /> <br />
 
 			<div id='niceRow'
-				style="padding: 20px; position: relative; left: -13px;" class="row">
+				style="padding: 20px; position: relative; left: 5px;" class="row">
 
 				<h4>Regression</h4>
 
