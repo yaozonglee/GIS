@@ -7,7 +7,7 @@ var ChildCareData=L.layerGroup();
 var HawkerCentreData=L.layerGroup();
 var KinderGartenData=L.layerGroup();
 var PrivateEducationData=L.layerGroup();
-
+var hasClickedPreviously=new Boolean();
 
 
 var test;
@@ -324,7 +324,13 @@ function onMapClick(e) {
     var marker = new L.Marker(e.latlng);
 //    var marker = new L.circleMarker(e.latlng);
     userMarkers.addLayer(marker);
-    userMarkersPos.push(e.latlng)
+    userMarkersPos.push(e.latlng);
+    
+//    if(!hasClickedPreviously){
+    	layerControl.addOverlay(userMarkers,'Clicked Points');  	
+//    }
+   
+    hasClickedPreviously=true;
     // alert("You clicked the map at " + e.latlng);
 }
 
@@ -332,6 +338,7 @@ $('#clearPoints').click(function(){
 $('#clearPoints').css('display','none');
   userMarkersPos=new Array();
   map.removeLayer(userMarkers);
+  layerControl.removeLayer(userMarkers);
   userMarkers = new L.LayerGroup();
   map.addLayer(userMarkers);
 });

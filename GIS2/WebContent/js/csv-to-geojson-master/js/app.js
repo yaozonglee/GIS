@@ -77,7 +77,7 @@ function processUpload() {
     	
     	
     	if(previousFileName!=''){
-    		map.removeLayer(previousFileName);
+    		layerControl.removeLayer(markers);
     		map.removeLayer(markers);
     		markers = new L.MarkerClusterGroup();
     		map.addLayer(markers);
@@ -101,7 +101,7 @@ function processUpload() {
     	
     	 
     	previousFileName=$('#fileName').val();
-		layerControl.addOverlay(userMarkers, $('#fileName').val());
+		layerControl.addOverlay(markers, $('#fileName').val());
 		
 //        layerControl.addOverlay(L.geoJson(geojson), $('#fileName').val());
         aaa = massagedData;
