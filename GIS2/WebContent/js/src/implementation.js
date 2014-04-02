@@ -200,6 +200,7 @@ function sendRegressionData(data){
 		type : "get",
 		data : {'regData' : data}
 	}).done(function(result) {
+		result = $.parseJSON(result);
 		console.log(result);
 	});
 }
