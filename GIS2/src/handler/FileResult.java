@@ -18,10 +18,10 @@ public class FileResult {
 		RConnection c = null;
 		try {
 			c = new RConnection();
-			c.eval("source(\"/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/RScripts/Palindrome.R\")");
+			c.eval("source(\""+OurUtility.RScriptPath+"\")");
 
 			// write to temp file
-			File userFile = new File("/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/canvas.csv");
+			File userFile = new File(OurUtility.canvasPath);
 			FileWriter writer = new FileWriter(userFile, false);
 			writer.write(data);
             writer.close();

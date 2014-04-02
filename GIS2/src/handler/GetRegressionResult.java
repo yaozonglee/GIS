@@ -38,9 +38,9 @@ public class GetRegressionResult extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String regData = request.getParameter("regData");
-		String targetPath = "/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/target.csv";
+		String targetPath = OurUtility.targetPath;
 		String targetMag = FileResult.targetMag;
-		String amenityPath = "/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/";
+		String amenityPath = OurUtility.amenityPath;
 		String[] userInput = regData.split("~");
 		String preparedInput = targetPath + "," + targetMag + "~";
 		for(String xLine : userInput){
@@ -53,7 +53,7 @@ public class GetRegressionResult extends HttpServlet {
 		RConnection c = null;
 		try {
 			c = new RConnection();
-			c.eval("source(\"/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/RScripts/Palindrome.R\")");
+			c.eval("source(\""+OurUtility.RScriptPath+"\")");
 
 			c.assign("str", preparedInput);
             REXP is_abc_palindrome = c.eval("computation(str)");

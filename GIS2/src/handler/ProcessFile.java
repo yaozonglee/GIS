@@ -50,7 +50,7 @@ public class ProcessFile extends HttpServlet {
 		String fileType = request.getParameter("fileType");
 		
 		//write to file
-		String filePath = "/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/";
+		String filePath = OurUtility.amenityPath;
 		File userFile = new File(filePath + fileName + ".csv");
 		if(!userFile.exists()){
 			userFile.createNewFile();
