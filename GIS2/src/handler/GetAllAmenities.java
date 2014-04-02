@@ -31,11 +31,11 @@ public class GetAllAmenities extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		JSONArray arr = new JSONArray();
-		arr.put("Community Centres");
-		arr.put("Child Care Centres");
-		arr.put("Hawker Centres");
-		arr.put("Kinder Gartens");
-		arr.put("Private Education");
+		arr.put("Community_Clubs");
+		arr.put("Child_Care");
+		arr.put("Hawker_Centres");
+		arr.put("Kinder_Gartens");
+		arr.put("Private_Education");
 		for(String key: FileResult.userFileList.keySet()){
 			arr.put(key);
 		}

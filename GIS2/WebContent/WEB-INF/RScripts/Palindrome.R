@@ -14,8 +14,8 @@ MoranMagnitude <- function(index){
   library(spdep)
   
   # Get spatial points
-  #ozone <- read.csv("/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
-  ozone <- read.csv("C:/Users/WeiChong/workspace/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
+  ozone <- read.csv("/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
+  #ozone <- read.csv("C:/Users/WeiChong/workspace/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
   
   # Get coordinates of ozone - to be used for neighbourlist
   coord <- cbind(ozone$longitude,ozone$latitude)
@@ -39,8 +39,8 @@ Quadrat <- function(){
   library(maptools)
   library(spatstat)
   
-  #points <- read.csv("/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
-  points <- read.csv("C:/Users/WeiChong/workspace/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
+  points <- read.csv("/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
+  #points <- read.csv("C:/Users/WeiChong/workspace/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
   # retrieve points
   coord <- cbind(points$longitude,points$latitude)
   
@@ -234,20 +234,20 @@ computation <- function(fatString){
     if(command=="distance"){
       #point.target<-ComputeDistance(point.target,point.amenity,paste("'D",nextString[1],"'",sep=""))
       variables[i-1] <- paste("DIST",(nextString[4]),sep="")
-      print(variables[i-1])
+      print("D")
       point.target<-ComputeDistance(point.target,point.amenity,variables[i-1])
       #variables[i-1] <- "DIST"
     } else if(command=="radius"){
       r <- as.numeric(nextString[2])
       #point.target<-CountNinR(point.target,point.amenity,6,paste("'R",nextString[1],"'",sep=""))
       colIndex <- as.numeric(nextString[3])
-      print(colIndex)
+      print("R")
       variables[i-1] <- paste("RADIUS",(nextString[4]),sep="")
       point.target<-CountNinR(point.target,point.amenity,colIndex,variables[i-1])
       #variables[i-1] <- "RADIUS"
       #CountNinR
     } else if(command=="magnitude"){
-      print("the")
+      print("M")
       colIndex <- as.numeric(nextString[3])
       variables[i-1] <- paste("MAG",(nextString[4]),sep="")
       point.target <- ComputeMagnitude(point.target,point.amenity,colIndex,variables[i-1])

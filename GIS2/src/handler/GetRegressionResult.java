@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.REXPList;
 import org.rosuda.REngine.RFactor;
@@ -59,40 +61,41 @@ public class GetRegressionResult extends HttpServlet {
 
 			c.assign("str", preparedInput);
             REXP is_abc_palindrome = c.eval("computation(str)");
-            double[][] lo = is_abc_palindrome.asDoubleMatrix();
-            System.out.println("DEBUG STRING: " + is_abc_palindrome.toDebugString());
+            double[][] numericVals = is_abc_palindrome.asDoubleMatrix();
             RList dimNames = is_abc_palindrome.getAttribute("dimnames").asList();
-//            Iterator iter = dimNames.iterator();
+            System.out.println("Being header names");
+            JSONArray headerVals = new JSONArray();
             for(int i = 0; i < dimNames.size(); i ++){
             	REXP val = (REXP) dimNames.get(i);
             	String[] valValues = val.asStrings();
+            	JSONArray currentArrVals = new JSONArray(valValues);
+            	headerVals.put(currentArrVals);
+            	System.out.println("Row: " + i);
             	for(int j = 0; j < valValues.length; j++){
-            		System.out.println("Outer: " + i + " Inner: " + valValues[j]);
+            		System.out.print(valValues[j] + "  ");
             	}
+            	System.out.println();
             }
-            
-//            while(iter.hasNext()){
-//            	REXP val = (REXP) iter.next();
-//            	System.out.println("iter: " + iter.next() + "size: " + dimNames.size());
-//            	String[] values = val.asStrings();
-//            	for(int i = 0; i < values.length; i++){
-//            		System.out.println("values " + i + " " +values[i]);
-//            	}
-//            }
+            System.out.println("header values json: " + headerVals.toString());
             
             
-            int[] dimArr = is_abc_palindrome.dim();
-            for(int x: dimArr){
-            	System.out.println("dimArr: " + x);
+            JSONArray statsVals = new JSONArray();
+            System.out.println("Being Print values");
+            for(int i = 0; i < numericVals.length; i++){
+            	JSONArray currentArrVals = new JSONArray(numericVals[i]);
+            	statsVals.put(currentArrVals);
+            	for(int j = 0; j < numericVals[i].length; j++){
+            		System.out.print(numericVals[i][j] + "  ");
+            	}
+            	System.out.println();
             }
-            String[] a = is_abc_palindrome.asStrings();
-            for(String x: a){
-            	System.out.println("Str: " + x);
-            }
-            System.out.println(lo.toString());
+            System.out.println("stats values json: " + statsVals.toString());
+            System.out.println("Rows: " + numericVals.length + " Cols: " + numericVals[0].length);
             
-            
-			
+            JSONObject finalResult = new JSONObject();
+            finalResult.put("headerVals", headerVals);
+            finalResult.put("statsVals", statsVals);
+            response.getWriter().write(finalResult.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
