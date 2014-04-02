@@ -7,8 +7,11 @@ var ChildCareData=L.layerGroup();
 var HawkerCentreData=L.layerGroup();
 var KinderGartenData=L.layerGroup();
 var PrivateEducationData=L.layerGroup();
-var hasClickedPreviously=new Boolean();
+//var hasClickedPreviously=new Boolean();
 
+
+//var markers;
+//var targetMarkers;
 
 var test;
 var test1;
@@ -22,7 +25,7 @@ var subRegion=L.layerGroup();
 var education=L.layerGroup();
 var rails=L.layerGroup();
 var legendControl;
-var markers;
+
 var userMarkers;
 var userMarkersPos=new Array();
 
@@ -79,9 +82,10 @@ function setMap() {
   // legendControl.addTo(map);
 
   //for marker cluster
-  markers = new L.MarkerClusterGroup();
-  map.addLayer(markers);
+//  markers = new L.MarkerClusterGroup();
+//  map.addLayer(markers);
 
+  
   
 //  $.getJSON('data/PrivateEducation.geojson', function(data) { 
 //	    L.geoJson(data, {     
@@ -330,7 +334,7 @@ function onMapClick(e) {
     	layerControl.addOverlay(userMarkers,'Clicked Points');  	
 //    }
    
-    hasClickedPreviously=true;
+//    hasClickedPreviously=true;
     // alert("You clicked the map at " + e.latlng);
 }
 

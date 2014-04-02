@@ -1,8 +1,14 @@
+var markers;
+var targetMarkers;
+//var previousFileExist=new Boolean();
+var previousTargetExist=new Boolean();
+
+
 $(document).ready(function() {
     var app = new App("Gavin", "Rehkemper");
 });
 
-var previousFileName='';
+
 
 var App = makeClass();
 App.prototype.init = function() {
@@ -76,32 +82,81 @@ function processUpload() {
 //        L.geoJson(geojson).addTo(map);
     	
     	
-    	if(previousFileName!=''){
-    		layerControl.removeLayer(markers);
-    		map.removeLayer(markers);
-    		markers = new L.MarkerClusterGroup();
-    		map.addLayer(markers);
-    	}
+    	
+    	
+//    		layerControl.removeLayer(markers);
+//    		map.removeLayer(markers);
+//    		markers = new L.MarkerClusterGroup();
+//    		map.addLayer(markers);
+    		
+    		if($('input[name="dataCategory"]:checked').val()=='target'){
+    			
+    			
+    			if(previousTargetExist==true){
+    				alert('previousTargetExist: '+previousTargetExist);
+    	    		map.removeLayer(targetMarkers);
+    	    		layerControl.removeLayer(targetMarkers);	
+    			}
+    			targetMarkers = new L.MarkerClusterGroup();
+    			map.addLayer(targetMarkers);
+    			L.geoJson(geojson, {     
+    	    	      onEachFeature: function (feature, layer) {   
+    	    	        var marker = new L.MapMarker(new L.LatLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]), {
+    	    	          gradient: true,
+    	    	          dropShadow: true,
+    	    	          radius: 20,
+    	    	          fillColor: 'hsl(' + 5 * 360 + ',100%,50%)'
+    	    	        });
+    	    	  
+    	    	    // Add the data layer to the map
+    	    	        targetMarkers.addLayer(marker);
+    	    	        
+    	    	      }       
+    	    	    });
+    			
+    			layerControl.addOverlay(targetMarkers, $('#fileName').val());
+    			previousTargetExist=true;
+    		}else{
+    			markers = new L.LayerGroup();
+    	    	map.addLayer(markers);
+    	    	L.geoJson(geojson, {     
+    	    	      onEachFeature: function (feature, layer) {   
+    	    	        var marker = new L.Marker(new L.LatLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]), {
+    	    	          gradient: true,
+    	    	          dropShadow: true,
+    	    	          radius: 20,
+    	    	          fillColor: 'hsl(' + 5 * 360 + ',100%,50%)'
+    	    	        });
+    	    	  
+    	    	    // Add the data layer to the map
+    	    	    markers.addLayer(marker);
+    	    	      }       
+    	    	    });
+    	    	
+    	    	layerControl.addOverlay(markers, $('#fileName').val());
+    		}
+    		
+    		
+    	
     	
     	//added for cluster group
-    	L.geoJson(geojson, {     
-    	      onEachFeature: function (feature, layer) {   
-    	        var marker = new L.MapMarker(new L.LatLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]), {
-    	          gradient: true,
-    	          dropShadow: true,
-    	          radius: 20,
-    	          fillColor: 'hsl(' + 5 * 360 + ',100%,50%)'
-    	        });
-    	  
-    	    // Add the data layer to the map
-    	    markers.addLayer(marker);
-    	      }       
-    	    });
-    	
+//    	L.geoJson(geojson, {     
+//    	      onEachFeature: function (feature, layer) {   
+//    	        var marker = new L.MapMarker(new L.LatLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]), {
+//    	          gradient: true,
+//    	          dropShadow: true,
+//    	          radius: 20,
+//    	          fillColor: 'hsl(' + 5 * 360 + ',100%,50%)'
+//    	        });
+//    	  
+//    	    // Add the data layer to the map
+//    	    markers.addLayer(marker);
+//    	      }       
+//    	    });
     	
     	 
-    	previousFileName=$('#fileName').val();
-		layerControl.addOverlay(markers, $('#fileName').val());
+//    	previousFileExist=true;
+		
 		
 //        layerControl.addOverlay(L.geoJson(geojson), $('#fileName').val());
         aaa = massagedData;
