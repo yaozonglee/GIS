@@ -76,7 +76,7 @@ public class GetVariableValue extends HttpServlet {
             
             System.out.println("Popup: " + arr.toString());
             JSONObject finalResult = new JSONObject();
-            finalResult.put("popUp", arr.toString());
+            finalResult.put("popUp", arr);
             finalResult.put("fullEqn", display);
             response.getWriter().write(finalResult.toString());
 		} catch (Exception e) {

@@ -14,8 +14,8 @@ MoranMagnitude <- function(index){
   library(spdep)
   
   # Get spatial points
-  #ozone <- read.csv("/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
-  ozone <- read.csv("C:/Users/WeiChong/workspace/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
+  ozone <- read.csv("/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
+  #ozone <- read.csv("C:/Users/WeiChong/workspace/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
   
   # Get coordinates of ozone - to be used for neighbourlist
   coord <- cbind(ozone$longitude,ozone$latitude)
@@ -39,8 +39,8 @@ Quadrat <- function(){
   library(maptools)
   library(spatstat)
   
-  #points <- read.csv("/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
-  points <- read.csv("C:/Users/WeiChong/workspace/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
+  points <- read.csv("/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
+  # points <- read.csv("C:/Users/WeiChong/workspace/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
   # retrieve points
   coord <- cbind(points$longitude,points$latitude)
   
@@ -382,5 +382,6 @@ GWRcomputation <- function(fatString){
   fmla <- as.formula(paste(targetColName,paste(" ~ ", paste(variables, collapse= "+"))))
   bw <- gwr.sel(fmla, data = point.target, adapt=T)
   indev_lm <- gwr(fmla, data = point.target, adapt=bw)
-  return(indev_lm)
+  kennethchai <- indev_lm$SDF
+  return(kennethchai)
 }

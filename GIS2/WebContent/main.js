@@ -13,6 +13,9 @@ var userMarkers;
 var userMarkersPos=new Array();
 
 
+var test;
+var test1;
+
 var dataToLoad;
 var region;
 
@@ -181,8 +184,7 @@ function setMap() {
   info.update = function (props) {
     // test=prop;
     this._div.innerHTML = '<h4>Analysis</h4>' +  (props ?
-        '<b>' + props.DGPZ_NAME + '</b><br />' + props.Census2000_TOTALPOP + ' people'
-        : 'Plant a pin on the map and run analysis');
+        props: 'Plant a pin on the map and run analysis');
   };
   
   info.addTo(map);
@@ -278,6 +280,37 @@ function setMap() {
   map.addLayer(userMarkers);
 
 function onMapClick(e) {
+	
+//	test=userPoints=e.latlng['lng']+","+e.latlng['lat'];
+	var userPoints=e.latlng['lng']+","+e.latlng['lat'];
+	
+	$.ajax({
+        url: "/GIS2/GetVariableValue",
+        type: "get",
+        data: {
+            'userPoints': userPoints
+        }
+    }).done(function(result) {
+    	var displayResult=$.parseJSON(result);
+    	
+    	var eqn='<b> Equation: </b><br/>' + displayResult['fullEqn'] + '<br /><br/>'
+    	var res='';
+    	var index;
+    	
+		for(index = 0; index < displayResult['popUp'].length; index++){
+			res+='<b>Result: </b><br/>'+displayResult['popUp'][index]+'<br/><br/>';
+		}
+    	
+    	var marthaFarker=eqn+res;
+    	test=displayResult;
+    	test1=marthaFarker;
+    	
+    	info.update(marthaFarker);
+//        console.log(result);
+    });
+
+
+	
 	$('#clearPoints').css('display','');
     var marker = new L.Marker(e.latlng);
 //    var marker = new L.circleMarker(e.latlng);
@@ -285,7 +318,7 @@ function onMapClick(e) {
     userMarkersPos.push(e.latlng);
     
     layerControl.addOverlay(userMarkers,'Clicked Points');  	
-    info.update();
+    
     // alert("You clicked the map at " + e.latlng);
 }
 

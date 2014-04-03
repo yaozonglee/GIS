@@ -206,29 +206,29 @@
 					<i>Regression Analysis: </i>
 				</h4>
 
-				<script>
+				<!-- <script>
 				  var test12321='{"statsVals": [[40.00653828350506,15.635419803190706,2.55871212842913,0.0175553570876532],[-6.628079044766696,5.2055816149764045,-1.2732638800048357,0.21564345557065492],[76.0692495499084,45.211865208106865,1.6825063332328203,0.10599913537408837]],"headerVals": [["(Intercept)","RADIUSCommunity_Clubs","DISTChild_Care"],["Estimate","Std. Error","t value","Pr(>|t|)"]]}';	
 
 
 		var result=$.parseJSON(test12321);
 
-				</script>
-				<table class="text-center">
+				</script> -->
+				<table id="regressionResult" class="text-center">
 					<tr>
 						<th></th>
-						<th>Estimate</th>
-						<th>Std. Error</th>
+						<th>estimate</th>
+						<th>std. error</th>
 						<th>t value</th>
-						<th>Pr(>|t|)</th>
+						<th>pr(>|t|)</th>
 					</tr>
-		<script>
+		<!-- <script>
 			var index;
 			for(index = 0; index < result['headerVals'][0].length; index++){
 			
 				document.write("<tr><td><i>"+result['headerVals'][0][index]+"</i></td><td><i>"+result['statsVals'][index][0]+"</i></td><td><i>"+result['statsVals'][index][1]+"</i></td><td><i>"+result['statsVals'][index][2]+"</i></td><td><i>"+result['statsVals'][index][3]+"</i></td></tr>");
 			}
 			
-			</script>
+			</script> -->
 					<!-- <tr>
 						<td><i>3.19e-06</i></td>
 						<td><i>0.49</i></td>

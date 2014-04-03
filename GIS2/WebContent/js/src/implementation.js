@@ -202,7 +202,16 @@ function sendRegressionData(data){
 		data : {'regData' : data}
 	}).done(function(result) {
 		result = $.parseJSON(result);
-		console.log(result);
+		//console.log(result);
+		$('.toDelete').remove();
+		var index;
+		for(index = 0; index < result['headerVals'][0].length; index++){
+		
+			$('#regressionResult').append("<tr class='toDelete' ><td><i>"+result['headerVals'][0][index]+"</i></td><td><i>"+result['statsVals'][index][0]+"</i></td><td><i>"+result['statsVals'][index][1]+"</i></td><td><i>"+result['statsVals'][index][2]+"</i></td><td><i>"+result['statsVals'][index][3]+"</i></td></tr>");
+		}
+		
+		
+		
 	});
 }
 
@@ -222,3 +231,16 @@ function errorHandler(evt) {
 		alert("Canno't read file !");
 	}
 }
+
+//function pinDrop(){
+//	$.ajax({
+//        url: "/GIS2/GetVariableValue",
+//        type: "get",
+//        data: {
+//            'userPoints': "103.90969,1.305"
+//        }
+//    }).done(function(result) {
+//        console.log(result);
+//    });
+//
+//}
