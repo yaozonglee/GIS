@@ -191,12 +191,24 @@ function grabRegSettings() {
 		}
 	});
 	sendRegressionData(result);
+	//sendGWRData(result);
 	console.log(result);
 }
 
 function sendRegressionData(data){
 	$.ajax({
 		url : "/GIS2/GetRegressionResult",
+		type : "get",
+		data : {'regData' : data}
+	}).done(function(result) {
+		result = $.parseJSON(result);
+		console.log(result);
+	});
+}
+
+function sendGWRData(data){
+	$.ajax({
+		url : "/GIS2/GetGWRResult",
 		type : "get",
 		data : {'regData' : data}
 	}).done(function(result) {
