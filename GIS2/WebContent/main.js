@@ -1,33 +1,28 @@
 //global variables
 var map; //map object
 var layerControl;
+var info;
 
 var CCData=L.layerGroup();
 var ChildCareData=L.layerGroup();
 var HawkerCentreData=L.layerGroup();
 var KinderGartenData=L.layerGroup();
 var PrivateEducationData=L.layerGroup();
-//var hasClickedPreviously=new Boolean();
+
+var userMarkers;
+var userMarkersPos=new Array();
 
 
-//var markers;
-//var targetMarkers;
-
-var test;
-var test1;
-var test2;
 var dataToLoad;
 var region;
-var info;
-var coor;
 
+var coor;
 var subRegion=L.layerGroup();
 var education=L.layerGroup();
 var rails=L.layerGroup();
 var legendControl;
 
-var userMarkers;
-var userMarkersPos=new Array();
+
 
 
 
@@ -81,27 +76,6 @@ function setMap() {
   // var legendControl = new L.Control.Legend({});
   // legendControl.addTo(map);
 
-  //for marker cluster
-//  markers = new L.MarkerClusterGroup();
-//  map.addLayer(markers);
-
-  
-  
-//  $.getJSON('data/PrivateEducation.geojson', function(data) { 
-//	    L.geoJson(data, {     
-//	      onEachFeature: function (feature, layer) {   
-//	        var marker = new L.MapMarker(new L.LatLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]), {
-//	          gradient: true,
-//	          dropShadow: true,
-//	          radius: 20,
-//	          fillColor: 'hsl(' + 5 * 360 + ',100%,50%)'
-//	        });
-//	  
-//	    // Add the data layer to the map
-//	    markers.addLayer(marker);
-//	      }       
-//	    });
-//	  });
   
    $.getJSON('data/PrivateEducation.geojson', function(data) { 
     L.geoJson(data, {     
@@ -147,28 +121,6 @@ function setMap() {
 	      }       
 	    });
 	  });
-
-
-  //loading a geojson file by creating an empty GeoJSON layer and assign it to a variable so that we can add more features to it later
-  
-  // Using AJAX to load the geojson file     WORKS!!!
-  
-  // $.getJSON('data/education.geojson', function(data) { 
-  //   L.geoJson(data, {       
-  //     onEachFeature: function (feature, layer) {   
-  //       layer.bindPopup(feature.properties.POI_NAME);         
-  //     }       
-  //   }).addTo(map); 
-  // });
-
-
-//  $.getJSON('data/education.geojson', function(data) { 
-//    L.geoJson(data, {     
-//      onEachFeature: function (feature, layer) {   
-//        layer.addTo(education).bindPopup(feature.properties.POI_NAME);
-//          }       
-//    }); 
-//  });
 
 
 
@@ -217,21 +169,23 @@ function setMap() {
   
 // adding a division of information content on mouse over
   info = L.control({position: 'topleft'});
+  
 
+  info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
+  };
 
-//  info.onAdd = function (map) {
-//    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-//    this.update();
-//    return this._div;
-//  };
-//
-//  // method that we will use to update the control based on feature properties passed
-//  info.update = function (props) {
-//    // test=prop;
-//    this._div.innerHTML = '<h4>Total Population by Region</h4>' +  (props ?
-//        '<b>' + props.DGPZ_NAME + '</b><br />' + props.Census2000_TOTALPOP + ' people'
-//        : 'Hover over a state');
-//  };
+  // method that we will use to update the control based on feature properties passed
+  info.update = function (props) {
+    // test=prop;
+    this._div.innerHTML = '<h4>Analysis</h4>' +  (props ?
+        '<b>' + props.DGPZ_NAME + '</b><br />' + props.Census2000_TOTALPOP + ' people'
+        : 'Plant a pin on the map and run analysis');
+  };
+  
+  info.addTo(map);
 
 //  var legend = L.control({position: 'bottomleft'});
 //
@@ -256,7 +210,7 @@ function setMap() {
 //
 //
   layerControl=L.control.layers(baseMaps,overlays).addTo(map);
-//  info.addTo(map);
+  
 //  legend.addTo(map);
 
 
@@ -330,16 +284,14 @@ function onMapClick(e) {
     userMarkers.addLayer(marker);
     userMarkersPos.push(e.latlng);
     
-//    if(!hasClickedPreviously){
-    	layerControl.addOverlay(userMarkers,'Clicked Points');  	
-//    }
-   
-//    hasClickedPreviously=true;
+    layerControl.addOverlay(userMarkers,'Clicked Points');  	
+    info.update();
     // alert("You clicked the map at " + e.latlng);
 }
 
 $('#clearPoints').click(function(){
 $('#clearPoints').css('display','none');
+  info.update();
   userMarkersPos=new Array();
   map.removeLayer(userMarkers);
   layerControl.removeLayer(userMarkers);
