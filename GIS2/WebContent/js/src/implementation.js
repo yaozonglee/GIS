@@ -106,7 +106,7 @@ function sendTestData(dd) {
 }
 
 function createNewAmenitySelection() {
-	var newTableRow = '<tr><td><select name="amenities">';
+	var newTableRow = '<tr><td><select style="width:70px" name="amenities" >';
 	$
 			.ajax({
 				url : "/GIS2/GetAllAmenities",
@@ -120,7 +120,7 @@ function createNewAmenitySelection() {
 									+ value + '</option>');
 						});
 						newTableRow += '</select></td>';
-						newTableRow += '<td><select name="regressionType" onchange="return createValueInput(this.value)"><option value="radius">Radius</option><option value="distance">Distance</option><option value="magnitude">Magnitude</option></select></td><td><input type="text" name="radius" style="width:50px;"/></td>';
+						newTableRow += '<td><select style="width:70px" name="regressionType" onchange="return createValueInput(this.value)"><option value="radius">Radius</option><option value="distance">Distance</option><option value="magnitude">Magnitude</option></select></td><td><input type="text" name="radius" style="width:50px;"/></td>';
 						$('#regressionTable').append(newTableRow);
 					});
 }

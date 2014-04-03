@@ -357,4 +357,4 @@ $('#clearPoints').css('display','none');
 
 };
     
-console.log("I LOVE GEOSPATIAL");//store the entire layer to bring to front etc
+console.log("I LOVE GEOSPATIAL");

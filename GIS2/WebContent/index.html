@@ -5,7 +5,7 @@
 <title>GIS - Group Project</title>
 <meta charset="utf-8" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
 
 <link rel="stylesheet" href="js/leaflet-0.7.2/leaflet.css" />
 <link rel="stylesheet" href="js/csv-to-geojson-master/css/style.css">
@@ -28,65 +28,66 @@
 <script src="js/csv-to-geojson-master/js/libs/CsvToJson.js"></script>
 <script src="js/csv-to-geojson-master/js/app.js"></script>
 
-<!-- Custom Modernizr for Foundation -->
-<script src="js/modernizr.js"></script>
 
-<!--libraries Foundation-->
-<script src="js/foundation.min.js"></script>
 
 <!--libraries MarkerCluster-->
 <link href="css/humangeo/bootstrap.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="css/humangeo/bootstrap-responsive.css" >
+<!-- <link rel="stylesheet" href="css/humangeo/bootstrap-responsive.css" >
     <link rel="stylesheet" href="css/humangeo/dvf.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="css/humangeo/example.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="css/humangeo/ui.css" type="text/css" media="screen" /> -->
-    <link rel="stylesheet" href="css/humangeo/MarkerCluster.Default.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="css/humangeo/MarkerCluster.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="css/humangeo/MarkerCluster.Default.css"
+	type="text/css" media="screen" />
+<link rel="stylesheet" href="css/humangeo/MarkerCluster.css"
+	type="text/css" media="screen" />
 
-    <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.2.3"></script>
-    <script type="text/javascript" src="js/humangeo/geohash.js"></script>
-    <script type="text/javascript" src="js/humangeo/leaflet.markercluster-src.js"></script>
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>
-    <script type="text/javascript" src="js/humangeo/leaflet-dvf.min.js"></script>
-    <script type="text/javascript" src="js/humangeo/leaflet.dvf.experimental.js"></script>
+<script type="text/javascript"
+	src="http://maps.stamen.com/js/tile.stamen.js?v1.2.3"></script>
+<script type="text/javascript" src="js/humangeo/geohash.js"></script>
+<script type="text/javascript"
+	src="js/humangeo/leaflet.markercluster-src.js"></script>
+<script type="text/javascript"
+	src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>
+<script type="text/javascript" src="js/humangeo/leaflet-dvf.min.js"></script>
+<script type="text/javascript"
+	src="js/humangeo/leaflet.dvf.experimental.js"></script>
 
 </head>
 
 <!-- <body style="background-color: #FAFAFA;"> -->
 <body style="background-image: url('pic/bgnoise_lg.jpg');">
 
-	<div class="small-12 medium-12 large-12 columns">
+	<div class="large-12 columns">
 
-		<div id='niceTitle' class="small-12 medium-12 large-12 columns">
+		<div id='niceTitle' class="large-12 columns">
 			<h1>My GIS App</h1>
 		</div>
 
 		<!-- <div class="row"> -->
-		<div class="small-12 medium-12 large-3 columns">
+		<div class="large-3 columns">
 
 			<div id='niceRow'
 				style="padding: 40px; position: relative; left: 5px;" class='row'>
 				<div class="row">
-					<h4 style="position: relative; bottom: 30px;">Upload file for analysis</h4> 
-					
-					Name of points: <br /> <br />
-					<input id="fileName" type="text" name="fileName"/><br /> <br />
-					
-					<input type="file"
+					<h4 style="position: relative; bottom: 30px;">Upload file for
+						analysis</h4>
+
+					<strong><i>Name of points:</i></strong> <br /> <br /> <input id="fileName" type="text"
+						name="fileName" /><br /> <br /> <input type="file"
 						id="csvFileInput" onchange="handleFiles(this.files)" accept=".csv" />
 					<input type="radio" name="dataCategory" value="amenity"
 						checked="checked" />Amenity &nbsp;<input type="radio"
 						name="dataCategory" value="target" />Target
-					
+
 					<!-- 
 					Name of points: <br /> <br />
 					<input id="fileName" type="text" name="fileName"/> -->
 				</div>
 
-				<br/>
+				<br />
 
 				<div class="row" class="gistLink" id="gistLinkContainer">
-					Selected Magnitude: <br /> <br /> <select id="headerOptions"></select>
+					<strong><i>Selected Magnitude:</i></strong> <br /> <br /> <select id="headerOptions"></select>
 					<br /> <br /> <input type="button" value="Upload"
 						onclick="selectMagnitude();" class="button tiny" />
 				</div>
@@ -104,7 +105,7 @@
 
 				<h4>Regression</h4>
 
-				<input type="button" value="+" style="float: right;"
+				<input type="button" value="+" style="float: right; position: relative; left: 5px;"
 					onclick="createNewAmenitySelection();" />
 
 				<table id='regressionTable' style="width: 250px">
@@ -114,35 +115,36 @@
 						<th>Value</th>
 					</tr>
 				</table>
-				<input type="button" value="Submit" class="button tiny" onclick="grabRegSettings()"/>
+				<input type="button" value="Submit" class="button tiny"
+					onclick="grabRegSettings()" />
 			</div>
 
 		</div>
 
-		<div class="small-12 medium-12 large-1 columns"></div>
+		<div class="large-1 columns"></div>
 
-		<div id='coolborder' class="small-12 medium-12 large-8 columns">
-			<div class="small-12 medium-12 large-12 columns" id='map'></div>
+		<div id='coolborder' class="large-8 columns">
+			<div class="large-12 columns" id='map'></div>
 		</div>
 	</div>
 
 
-	<div class="small-12 medium-12 large-12 columns" style="padding: 10px;">
+	<div class="large-12 columns" style="padding: 10px;">
 		<div id='niceRow' style="padding: 30px; background: white;"
-			class="small-12 medium-12 large-12 columns">
+			class="large-12 columns">
 			<h3>
 				<i>Results</i>
 			</h3>
 			<!-- <div class='row'> -->
-			<div id='coolborder' class="small-6 medium-3 large-3 columns">
-				<h5>
+			<div id='coolborder' class="large-6 columns" align='center'>
+				<h4 align='left'>
 					<i>Moran Analysis:</i>
-				</h5>
+				</h4>
 
 				<table class="text-center">
 					<tr>
-						<th>I Statistics<br/>&nbsp;</th>
-						<th>P Value<br/>&nbsp;</th>
+						<th>I Statistics</th>
+						<th>P Value</th>
 					</tr>
 					<tr>
 						<td><i>0.76854</i></td>
@@ -165,16 +167,16 @@
 				</div> -->
 
 			</div>
-			<div id='coolborder' class="small-6 medium-3 large-3 columns">
-				<h5>
+			<div id='coolborder' class="large-6 columns" align='center'>
+				<h4 align='left'>
 					<i>Quadrat Analysis:</i>
-				</h5>
+				</h4>
 
 				<div class="row">
 					<table class="text-center">
 						<tr>
-							<th>X-Squared<br/>&nbsp;</th>
-							<th>P Value<br/>&nbsp;</th>
+							<th>X-Squared</th>
+							<th>P Value</th>
 						</tr>
 						<tr>
 							<td><i>81.6538</i></td>
@@ -196,47 +198,67 @@
 				</div>
 
 			</div>
-			<div id='coolborder' class="small-6 medium-3 large-6 columns">
-				<h5>
+
+			<div id='coolborder' class="large-12 columns" align='center'>
+
+
+				<h4 align='left'>
 					<i>Regression Analysis: </i>
-				</h5>
+				</h4>
 
-				<div class="row">
-					<table class="text-center">
-						<tr>
-							<th>Coefficient Estimate</th>
-							<th>School Rating</th>
-							<th>N Clinics (1000m)</th>
-							<th>Nearest Hospital Distance</th>
-							<th>Intercept</th>
-						</tr>
+				<script>
+				  var test12321='{"statsVals": [[40.00653828350506,15.635419803190706,2.55871212842913,0.0175553570876532],[-6.628079044766696,5.2055816149764045,-1.2732638800048357,0.21564345557065492],[76.0692495499084,45.211865208106865,1.6825063332328203,0.10599913537408837]],"headerVals": [["(Intercept)","RADIUSCommunity_Clubs","DISTChild_Care"],["Estimate","Std. Error","t value","Pr(>|t|)"]]}';	
 
-						<tr>
-							<td><i>3.19e-06</i></td>
-							<td><i>0.49</i></td>
-							<td><i>0.021</i></td>
-							<td><i>0.63</i></td>
-							<td><i>0.00003386</i></td>
-						</tr>
 
-					</table>
+		var result=$.parseJSON(test12321);
 
-				</div>
+				</script>
+				<table class="text-center">
+					<tr>
+						<th></th>
+						<th>Estimate</th>
+						<th>Std. Error</th>
+						<th>t value</th>
+						<th>Pr(>|t|)</th>
+					</tr>
+		<script>
+			var index;
+			for(index = 0; index < result['headerVals'][0].length; index++){
+			
+				document.write("<tr><td><i>"+result['headerVals'][0][index]+"</i></td><td><i>"+result['statsVals'][index][0]+"</i></td><td><i>"+result['statsVals'][index][1]+"</i></td><td><i>"+result['statsVals'][index][2]+"</i></td><td><i>"+result['statsVals'][index][3]+"</i></td></tr>");
+			}
+			
+			</script>
+					<!-- <tr>
+						<td><i>3.19e-06</i></td>
+						<td><i>0.49</i></td>
+						<td><i>0.021</i></td>
+						<td><i>0.63</i></td>
+						<td><i>0.00003386</i></td>
+					</tr>
+ -->
+				</table>
+
+
 
 
 			</div>
-			<!-- <div id ='coolborder' class="small-6 medium-3 large-3 columns">
+
+
+		</div>
+
+		<!-- <div id ='coolborder' class="small-6 medium-3 large-3 columns">
 				<h5>
 					<i>GWR Analysis:</i>
 				</h5>
 			</div> -->
 
 
-			<div id="statsResults" class="small-12 medium-12 large-12 columns">
-				<div class="small-12 medium-12 large-12 columns" id="statsScore"></div>
-			</div>
+		<div id="statsResults" class="large-12 columns">
+			<div class="large-12 columns" id="statsScore"></div>
 		</div>
 	</div>
+	
 
 	<script src="js/src/implementation.js"></script>
 	<script src="main.js"></script>

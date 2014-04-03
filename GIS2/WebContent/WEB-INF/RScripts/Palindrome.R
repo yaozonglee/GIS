@@ -14,8 +14,8 @@ MoranMagnitude <- function(index){
   library(spdep)
   
   # Get spatial points
-  ozone <- read.csv("/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
-  #ozone <- read.csv("C:/Users/WeiChong/workspace/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
+  #ozone <- read.csv("/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
+  ozone <- read.csv("C:/Users/WeiChong/workspace/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
   
   # Get coordinates of ozone - to be used for neighbourlist
   coord <- cbind(ozone$longitude,ozone$latitude)
@@ -39,8 +39,8 @@ Quadrat <- function(){
   library(maptools)
   library(spatstat)
   
-  points <- read.csv("/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
-  #points <- read.csv("C:/Users/WeiChong/workspace/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
+  #points <- read.csv("/Users/yaozong/git/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
+  points <- read.csv("C:/Users/WeiChong/workspace/GIS/GIS2/WebContent/WEB-INF/canvas.csv", header=TRUE, sep=",")
   # retrieve points
   coord <- cbind(points$longitude,points$latitude)
   
@@ -138,7 +138,7 @@ CountNinR <- function(pointO, pointT, radius, colName ){
 # linear model test
 test <- function(){
   library(spdep)
-  p#oints.library <- read.csv("C://GIS/R scripts/data/library.csv", header=TRUE, sep=",")
+  #points.library <- read.csv("C://GIS/R scripts/data/library.csv", header=TRUE, sep=",")
   #points.parks <- read.csv("C://GIS/R scripts/data/NPark.csv", header=TRUE, sep=",")
   points.library <- read.csv("C:/Users/WeiChong/Dropbox/Information Security Management/GIS Final Project/Data/library.csv", header=TRUE, sep=",")
   points.parks <- read.csv("C:/Users/WeiChong/Dropbox/Information Security Management/GIS Final Project/Data/NPark.csv", header=TRUE, sep=",")
