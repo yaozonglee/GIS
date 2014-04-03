@@ -63,6 +63,8 @@ public class GetRegressionResult extends HttpServlet {
 
 			c.assign("str", preparedInput);
             REXP is_abc_palindrome = c.eval("computation(str)");
+            REXP secondCall = c.eval("Rcomputation(str)");
+            double second = secondCall.asDouble();
             numericVals = is_abc_palindrome.asDoubleMatrix();
             RList dimNames = is_abc_palindrome.getAttribute("dimnames").asList();
             System.out.println("Being header names");
@@ -97,6 +99,7 @@ public class GetRegressionResult extends HttpServlet {
             JSONObject finalResult = new JSONObject();
             finalResult.put("headerVals", headerVals);
             finalResult.put("statsVals", statsVals);
+            finalResult.put("secondCall", second);
             response.getWriter().write(finalResult.toString());
 		} catch (Exception e) {
 			e.printStackTrace();

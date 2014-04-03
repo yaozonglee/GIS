@@ -271,7 +271,7 @@ function sendRegressionData(data) {
 											+ result['statsVals'][index][3]
 											+ "</i></td></tr>");
 						}
-
+						$('#R2Value').html("R-square value: " + result.secondCall);
 					});
 }
 

@@ -267,7 +267,68 @@ computation <- function(fatString){
   gg<-summ$coefficients
   return(gg)
 }
-
+Rcomputation <- function(fatString){
+  library(spdep)
+  calStrings <- strsplit(fatString,"~",fixed=FALSE)[[1]]
+  
+  # first string
+  firstString <- strsplit(calStrings[1],",",fixed=FALSE)[[1]]
+  
+  point.target <- read.csv(firstString[1], header=TRUE, sep=",")
+  point.target.column <- as.numeric(firstString[2])
+  targetColName <- names(point.target)[point.target.column]
+  coordinates(point.target) <- c("longitude", "latitude")
+  print(point.target.column)
+  count = 0
+  
+  variables <-  (1:(length(calStrings)-1))
+  
+  
+  for (i in 2:length(calStrings)) {
+    nextString <- strsplit(calStrings[i],",",fixed=FALSE)[[1]]
+    
+    command <- nextString[2]
+    
+    # retrieve point
+    print(nextString[1])
+    point.amenity <- read.csv(nextString[1], header=TRUE, sep=",")
+    coordinates(point.amenity) <- c("longitude", "latitude")
+    if(command=="distance"){
+      #point.target<-ComputeDistance(point.target,point.amenity,paste("'D",nextString[1],"'",sep=""))
+      variables[i-1] <- paste("DIST",(nextString[4]),sep="")
+      print("D")
+      point.target<-ComputeDistance(point.target,point.amenity,variables[i-1])
+      #variables[i-1] <- "DIST"
+    } else if(command=="radius"){
+      r <- as.numeric(nextString[2])
+      #point.target<-CountNinR(point.target,point.amenity,6,paste("'R",nextString[1],"'",sep=""))
+      colIndex <- as.numeric(nextString[3])
+      print("R")
+      variables[i-1] <- paste("RADIUS",(nextString[4]),sep="")
+      point.target<-CountNinR(point.target,point.amenity,colIndex,variables[i-1])
+      #variables[i-1] <- "RADIUS"
+      #CountNinR
+    } else if(command=="magnitude"){
+      print("M")
+      colIndex <- as.numeric(nextString[3])
+      variables[i-1] <- paste("MAG",(nextString[4]),sep="")
+      point.target <- ComputeMagnitude(point.target,point.amenity,colIndex,variables[i-1])
+    }
+    # convert point back to data frame
+    coordinates(point.target) <- c("longitude", "latitude")
+    print("the")
+  }
+  
+  # calculate linear model
+  
+  # compute formula
+  print(paste(targetColName,paste(" ~ ", paste(variables, collapse= "+"))))
+  fmla <- as.formula(paste(targetColName,paste(" ~ ", paste(variables, collapse= "+"))))
+  indev_lm <- lm(fmla, data = point.target)
+  summ<-summary(indev_lm)
+  gg<-summ$r.squared
+  return(gg)
+}
 # sample : "X,Y,CSV,distance/radius/magnitude,VALUE"
 postCalculation<-function(testString){
   library(spdep)  # spatial dependence
