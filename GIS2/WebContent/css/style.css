@@ -50,8 +50,8 @@
 }
 
 .legend {
-    position:fixed;
-    top:0px;
+    position:relative;
+    top:520px;
     left:0px;
     line-height: 18px;
     color: #555;

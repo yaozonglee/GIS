@@ -2,6 +2,7 @@
 var map; //map object
 var layerControl;
 var info;
+var legend;
 
 var CCData=L.layerGroup();
 var ChildCareData=L.layerGroup();
@@ -189,31 +190,37 @@ function setMap() {
   
   info.addTo(map);
 
-//  var legend = L.control({position: 'bottomleft'});
-//
-//  legend.onAdd = function (map) {
-//
-//      var div = L.DomUtil.create('div', 'info legend'),
-//          grades = [0, 1385, 4994, 16944, 137152],
-//          labels = [];
-//
-//      // loop through our intervals and generate a label with a colored square for each interval
-//      for (var i = 0; i < grades.length; i++) {
-//          // div.innerHTML +=
-//          //     '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-//          //     '&#60;' + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-//          div.innerHTML +=
-//              '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-//              grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-//      }
-//
-//      return div;
-//  };
-//
-//
+  legend = L.control({position: 'topleft'});
+  
+  legend.onAdd = function (map) {
+	    this._div = L.DomUtil.create('div', 'info legend'); // create a div with a class "info"
+	    
+	    return this._div;
+	  };
+
+
+  legend.update = function (min,band) {
+
+      
+      var grades = [0,(min+band).toFixed(5), (min+(2*band)).toFixed(5), (min+(3*band)).toFixed(5), (min+(4*band)).toFixed(5)]; //must be dynamic
+      console.log('grades: '+grades);
+        //var  labels = [];
+      	var colour=['#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15'];
+
+      // loop through our intervals and generate a label with a colored square for each interval
+      	this._div.innerHTML = '<h4>'+selectedOption+'</h4>';
+      	for (var i = 0; i < grades.length; i++) {
+    	  this._div.innerHTML += '<i style="background:' + colour[i] + '"></i> ' +
+              grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+      }
+
+      return this._div;
+  };
+
+  legend.addTo(map);
   layerControl=L.control.layers(baseMaps,overlays).addTo(map);
   
-//  legend.addTo(map);
+  
 
 
 //styling of region polygon with census data         start

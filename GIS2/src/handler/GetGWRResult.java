@@ -59,57 +59,31 @@ public class GetGWRResult extends HttpServlet {
 
 			c.assign("str", preparedInput);
 			REXP gwrResult = c.eval("GWRcomputation(str)");
-			System.out.println(gwrResult.toDebugString());
-			System.out.println(gwrResult.getAttribute("names"));
+//			System.out.println(gwrResult.toDebugString());
+//			System.out.println(gwrResult.getAttribute("names"));
 			String[] names = gwrResult.getAttribute("names").asStrings();
-			for(String x: names){
-				System.out.println("names: " + x);
-			}
-			System.out.println(gwrResult.asList());
+//			for(String x: names){
+//				System.out.println("names: " + x);
+//			}
+//			System.out.println(gwrResult.asList());
 			RList vals = gwrResult.asList();
-			for(int i = 0; i < vals.size(); i++){
+//			for(int i = 0; i < vals.size(); i++){
+//				REXP valREXP = (REXP) vals.get(i);
+//				double[] colVal = valREXP.asDoubles();
+//				for(double x: colVal){
+//					System.out.println(i + ":    " + x);
+//				}
+//			}
+			
+			JSONObject finalResult = new JSONObject();
+			for(int i = 0; i < names.length; i++){
 				REXP valREXP = (REXP) vals.get(i);
 				double[] colVal = valREXP.asDoubles();
-				for(double x: colVal){
-					System.out.println(i + ":    " + x);
-				}
+				JSONArray jColVals = new JSONArray(colVal);
+				finalResult.put(names[i], jColVals);
 			}
-			//double[][] numericVals = is_abc_palindrome.asDoubleMatrix();
-//			RList dimNames = gwrResult.getAttribute("dimnames")
-//					.asList();
-//			System.out.println("Being header names");
-//			JSONArray headerVals = new JSONArray();
-//			for (int i = 0; i < dimNames.size(); i++) {
-//				REXP val = (REXP) dimNames.get(i);
-//				String[] valValues = val.asStrings();
-//				JSONArray currentArrVals = new JSONArray(valValues);
-//				headerVals.put(currentArrVals);
-//				System.out.println("GWR Row: " + i);
-//				for (int j = 0; j < valValues.length; j++) {
-//					System.out.print(valValues[j] + "  ");
-//				}
-//				System.out.println();
-//			}
-//			System.out.println("GWR header values json: " + headerVals.toString());
-//
-//			JSONArray statsVals = new JSONArray();
-//			System.out.println("GWR Begin Print values");
-////			for (int i = 0; i < numericVals.length; i++) {
-////				JSONArray currentArrVals = new JSONArray(numericVals[i]);
-////				statsVals.put(currentArrVals);
-////				for (int j = 0; j < numericVals[i].length; j++) {
-////					System.out.print(numericVals[i][j] + "  ");
-////				}
-////				System.out.println();
-////			}
-////			System.out.println("GWR stats values json: " + statsVals.toString());
-////			System.out.println("GWR Rows: " + numericVals.length + " GWR Cols: "
-////					+ numericVals[0].length);
-//
-//			JSONObject finalResult = new JSONObject();
-//			finalResult.put("headerVals", headerVals);
-//			finalResult.put("statsVals", statsVals);
-//			response.getWriter().write(finalResult.toString());
+			System.out.println(finalResult.toString());
+			response.getWriter().write(finalResult.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

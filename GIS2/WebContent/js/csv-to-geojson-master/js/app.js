@@ -1,6 +1,6 @@
 var markers;
 var targetMarkers;
-//var previousFileExist=new Boolean();
+var targetName;
 var previousTargetExist=new Boolean();
 
 
@@ -93,7 +93,7 @@ function processUpload() {
     			
     			
     			if(previousTargetExist==true){
-    				alert('previousTargetExist: '+previousTargetExist);
+//    				alert('previousTargetExist: '+previousTargetExist);
     	    		map.removeLayer(targetMarkers);
     	    		layerControl.removeLayer(targetMarkers);	
     			}
@@ -115,6 +115,7 @@ function processUpload() {
     	    	    });
     			
     			layerControl.addOverlay(targetMarkers, $('#fileName').val());
+    			targetName=$('#fileName').val();
     			previousTargetExist=true;
     		}else{
     			markers = new L.LayerGroup();
@@ -134,6 +135,7 @@ function processUpload() {
     	    	    });
     	    	
     	    	layerControl.addOverlay(markers, $('#fileName').val());
+    	    	targetName=$('#fileName').val();
     		}
     		
     		

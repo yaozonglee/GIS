@@ -2,6 +2,10 @@ var mycsv;
 var originalCsv;
 var aaa;
 
+var globalAnalysisResult;
+var fillColourD = '';
+var selectedOption; 
+
 function handleFiles(files) {
 	// Check for the various File API support.
 	if (window.FileReader && files[0] != null) {
@@ -75,13 +79,24 @@ function sendData(selectedMag) {
 			fileType : $('input[name=dataCategory]:checked').val()
 		}
 	}).done(function(result) {
+		$('#QA1').html("");
+		$('#QA2').html("");
+		$('#MA1').html("");
+		$('#MA2').html("");
 		console.log(result);
 		var stat = $.parseJSON(result);
-		var printToScreen = "";
-		$.each(stat, function(index, value) {
-			printToScreen += (value[0] + ": " + value[1] + "</br>");
-		});
-		$('#statsScore').html(printToScreen);
+//		var printToScreen = "";
+//		$.each(stat, function(index, value) {
+//			printToScreen += (value[0] + ": " + value[1] + "</br>");
+//		});
+		if($("#headerOptions option:selected").val() === "0"){
+			$('#QA1').html(stat[0][1]);
+			$('#QA2').html(stat[1][1]);
+		}else{
+			$('#MA1').html(stat[0][1]);
+			$('#MA2').html(stat[1][1]);
+		}
+//		$('#statsScore').html(printToScreen);
 	});
 
 	// convert to geo JSON
@@ -133,7 +148,7 @@ function createValueInput(value) {
 		$(event.srcElement.parentElement.parentElement.children[2]).html(
 				'<input type="text" disabled="disabled" style="width:50px;"/>');
 	} else if (value === "magnitude") {
-		var userAmenitySelection = '<select name="userAmenity">';
+		var userAmenitySelection = '<select style="width:70px"  name="userAmenity">';
 		var location = $(event.srcElement.parentElement.parentElement.children[2]);
 		var selectedFileName = $(
 				event.srcElement.parentElement.parentElement.children[0]).find(
@@ -165,65 +180,181 @@ function createValueInput(value) {
 function grabRegSettings() {
 	var result = "";
 	var last = "";
-	$('#regressionTable > tbody  > tr').each(function(index1, value1) {
-		if (index1 > 0) {
-			$.each(value1.children, function(index2, value2) {
-				if (index2 < 2) {
-					console.log($(value2).find('option:selected').val());
-					result += ($(value2).find('option:selected').val() + ",");
-					last = $(value2).find('option:selected').val();
-				}else{
-					if(last === "radius"){
-						console.log($(value2).find('input:text[name=radius]').val());
-						result += $(value2).find('input:text[name=radius]').val();
-					}else if(last === "distance"){
-						console.log($(value2).find('input:text').val());
-						result += NaN;
-					}else if(last === "magnitude"){
-						console.log(parseInt($(value2).find('option:selected').val()) + 1);
-						result += (parseInt($(value2).find('option:selected').val()) + 1);
-					}
-					if(index1 !== ($('#regressionTable > tbody  > tr').length -1)){
-						result += "~";
-					}
-				}
-			});
-		}
-	});
+	$('#regressionTable > tbody  > tr')
+			.each(
+					function(index1, value1) {
+						if (index1 > 0) {
+							$
+									.each(
+											value1.children,
+											function(index2, value2) {
+												if (index2 < 2) {
+													console.log($(value2).find(
+															'option:selected')
+															.val());
+													result += ($(value2).find(
+															'option:selected')
+															.val() + ",");
+													last = $(value2).find(
+															'option:selected')
+															.val();
+												} else {
+													if (last === "radius") {
+														console
+																.log($(value2)
+																		.find(
+																				'input:text[name=radius]')
+																		.val());
+														result += $(value2)
+																.find(
+																		'input:text[name=radius]')
+																.val();
+													} else if (last === "distance") {
+														console
+																.log($(value2)
+																		.find(
+																				'input:text')
+																		.val());
+														result += NaN;
+													} else if (last === "magnitude") {
+														console
+																.log(parseInt($(
+																		value2)
+																		.find(
+																				'option:selected')
+																		.val()) + 1);
+														result += (parseInt($(
+																value2)
+																.find(
+																		'option:selected')
+																.val()) + 1);
+													}
+													if (index1 !== ($('#regressionTable > tbody  > tr').length - 1)) {
+														result += "~";
+													}
+												}
+											});
+						}
+					});
 	sendRegressionData(result);
 	sendGWRData(result);
 	console.log(result);
 }
 
-function sendRegressionData(data){
-	$.ajax({
-		url : "/GIS2/GetRegressionResult",
-		type : "get",
-		data : {'regData' : data}
-	}).done(function(result) {
-		result = $.parseJSON(result);
-		//console.log(result);
-		$('.toDelete').remove();
-		var index;
-		for(index = 0; index < result['headerVals'][0].length; index++){
-		
-			$('#regressionResult').append("<tr class='toDelete' ><td><i>"+result['headerVals'][0][index]+"</i></td><td><i>"+result['statsVals'][index][0]+"</i></td><td><i>"+result['statsVals'][index][1]+"</i></td><td><i>"+result['statsVals'][index][2]+"</i></td><td><i>"+result['statsVals'][index][3]+"</i></td></tr>");
-		}
-		
-		
-		
-	});
+function sendRegressionData(data) {
+	$
+			.ajax({
+				url : "/GIS2/GetRegressionResult",
+				type : "get",
+				data : {
+					'regData' : data
+				}
+			})
+			.done(
+					function(result) {
+						result = $.parseJSON(result);
+						// console.log(result);
+						$('.toDelete').remove();
+						var index;
+						for (index = 0; index < result['headerVals'][0].length; index++) {
+
+							$('#regressionResult').append(
+									"<tr class='toDelete' ><td><i>"
+											+ result['headerVals'][0][index]
+											+ "</i></td><td><i>"
+											+ result['statsVals'][index][0]
+											+ "</i></td><td><i>"
+											+ result['statsVals'][index][1]
+											+ "</i></td><td><i>"
+											+ result['statsVals'][index][2]
+											+ "</i></td><td><i>"
+											+ result['statsVals'][index][3]
+											+ "</i></td></tr>");
+						}
+
+					});
 }
 
-function sendGWRData(data){
-	$.ajax({
-		url : "/GIS2/GetGWRResult",
-		type : "get",
-		data : {'regData' : data}
-	}).done(function(result) {
-		result = $.parseJSON(result);
-		console.log(result);
-	});
+function sendGWRData(data) {
+	$
+			.ajax({
+				url : "/GIS2/GetGWRResult",
+				type : "get",
+				data : {
+					'regData' : data
+				}
+			})
+			.done(
+					function(result) {
+						result = $.parseJSON(result);
+						
+						globalAnalysisResult = result;
+						
+						
+						
+						// populate gwr options
+						$('#gwrOptions').empty();
+
+						$.each(result, function(key, value) {
+							if (key !== "longitude" || key !== "latitude") {
+								var option = $('<option value=' + key + '>'
+										+ key + '</option>');
+								option.appendTo('#gwrOptions');
+							}
+						});
+
+						// end of gwr options
+						replotCircle();
+					});
+}
+
+function replotCircle(){
+	selectedOption = $("#gwrOptions option:selected").val();
+	
+	var max = Math.max.apply(Math, globalAnalysisResult[selectedOption]);
+	var min = Math.min.apply(Math, globalAnalysisResult[selectedOption]);
+
+	var index;
+	var band = (max - min) / 5;
+	
+	legend.update(min,band);
+	
+	console.log('min: ' + min + '   max: ' + max + 'band: '
+			+ band);
+
+	map.removeLayer(targetMarkers);
+	layerControl.removeLayer(targetMarkers);
+
+	targetMarkers = new L.layerGroup();
+	map.addLayer(targetMarkers);
+
+	 layerControl.addOverlay(targetMarkers,targetName);
+
+	for (index = 0; index < globalAnalysisResult[selectedOption].length; index++) {
+		
+		if (globalAnalysisResult[selectedOption][index] < (min + band)) {
+			fillColourD = '#fee5d9';
+		} else if (globalAnalysisResult[selectedOption][index] < (min + 2 * band)) {
+			fillColourD = '#fcae91';
+		} else if (globalAnalysisResult[selectedOption][index] < (min + 3 * band)) {
+			fillColourD = '#fb6a4a';
+		} else if (globalAnalysisResult[selectedOption][index] < (min + 4 * band)) {
+			fillColourD = '#de2d26';
+		} else {
+			fillColourD = '#a50f15';
+		}
+
+		var marker = new L.circleMarker(new L.LatLng(
+				globalAnalysisResult['latitude'][index],
+				globalAnalysisResult['longitude'][index]), {
+			weight : 1,
+			opaciity : 1,
+			fillOpacity : 1,
+			fillColor : fillColourD
+		});
+		targetMarkers.addLayer(marker);
+	}
+	
 }
 
 function errorHandler(evt) {
@@ -232,15 +363,15 @@ function errorHandler(evt) {
 	}
 }
 
-//function pinDrop(){
-//	$.ajax({
-//        url: "/GIS2/GetVariableValue",
-//        type: "get",
-//        data: {
-//            'userPoints': "103.90969,1.305"
-//        }
-//    }).done(function(result) {
-//        console.log(result);
-//    });
+// function pinDrop(){
+// $.ajax({
+// url: "/GIS2/GetVariableValue",
+// type: "get",
+// data: {
+// 'userPoints': "103.90969,1.305"
+// }
+// }).done(function(result) {
+// console.log(result);
+// });
 //
-//}
+// }

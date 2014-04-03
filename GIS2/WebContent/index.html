@@ -117,6 +117,13 @@
 				</table>
 				<input type="button" value="Submit" class="button tiny"
 					onclick="grabRegSettings()" />
+					
+					<hr>
+					
+					<div style="class="row">
+						<select id="gwrOptions" onchange="replotCircle()"></select>
+					</div>
+					
 			</div>
 
 		</div>
@@ -147,8 +154,8 @@
 						<th>P Value</th>
 					</tr>
 					<tr>
-						<td><i>0.76854</i></td>
-						<td><i>0.021788</i></td>
+						<td id = 'MA1'><i></i></td>
+						<td id = 'MA2'><i></i></td>
 					</tr>
 				</table>
 
@@ -179,8 +186,8 @@
 							<th>P Value</th>
 						</tr>
 						<tr>
-							<td><i>81.6538</i></td>
-							<td><i>6.619e-08</i></td>
+							<td id = 'QA1'><i></i></td>
+							<td id = 'QA2'><i></i></td>
 						</tr>
 					</table>
 
