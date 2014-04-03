@@ -382,6 +382,7 @@ GWRcomputation <- function(fatString){
   fmla <- as.formula(paste(targetColName,paste(" ~ ", paste(variables, collapse= "+"))))
   bw <- gwr.sel(fmla, data = point.target, adapt=T)
   indev_lm <- gwr(fmla, data = point.target, adapt=bw)
-  kennethchai <- indev_lm$SDF
+  kennethchai <- as.data.frame(indev_lm$SDF)
+  leeyaozong <- as.matrix(kennethchai)
   return(kennethchai)
 }

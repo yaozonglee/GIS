@@ -191,7 +191,7 @@ function grabRegSettings() {
 		}
 	});
 	sendRegressionData(result);
-	//sendGWRData(result);
+	sendGWRData(result);
 	console.log(result);
 }
 

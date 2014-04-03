@@ -60,7 +60,20 @@ public class GetGWRResult extends HttpServlet {
 			c.assign("str", preparedInput);
 			REXP gwrResult = c.eval("GWRcomputation(str)");
 			System.out.println(gwrResult.toDebugString());
+			System.out.println(gwrResult.getAttribute("names"));
+			String[] names = gwrResult.getAttribute("names").asStrings();
+			for(String x: names){
+				System.out.println("names: " + x);
+			}
 			System.out.println(gwrResult.asList());
+			RList vals = gwrResult.asList();
+			for(int i = 0; i < vals.size(); i++){
+				REXP valREXP = (REXP) vals.get(i);
+				double[] colVal = valREXP.asDoubles();
+				for(double x: colVal){
+					System.out.println(i + ":    " + x);
+				}
+			}
 			//double[][] numericVals = is_abc_palindrome.asDoubleMatrix();
 //			RList dimNames = gwrResult.getAttribute("dimnames")
 //					.asList();
