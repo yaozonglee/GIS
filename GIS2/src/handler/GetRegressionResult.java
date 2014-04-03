@@ -27,7 +27,8 @@ import org.rosuda.REngine.Rserve.RConnection;
 @WebServlet("/GetRegressionResult")
 public class GetRegressionResult extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    public static String[] regressionInput;
+    public static double[][] numericVals;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -46,6 +47,7 @@ public class GetRegressionResult extends HttpServlet {
 		String targetMag = FileResult.targetMag;
 		String amenityPath = OurUtility.amenityPath;
 		String[] userInput = regData.split("~");
+		regressionInput = userInput;
 		String preparedInput = targetPath + "," + targetMag + "~";
 		for(String xLine : userInput){
 			String[] xLineVals = xLine.split(",");
@@ -61,7 +63,7 @@ public class GetRegressionResult extends HttpServlet {
 
 			c.assign("str", preparedInput);
             REXP is_abc_palindrome = c.eval("computation(str)");
-            double[][] numericVals = is_abc_palindrome.asDoubleMatrix();
+            numericVals = is_abc_palindrome.asDoubleMatrix();
             RList dimNames = is_abc_palindrome.getAttribute("dimnames").asList();
             System.out.println("Being header names");
             JSONArray headerVals = new JSONArray();
